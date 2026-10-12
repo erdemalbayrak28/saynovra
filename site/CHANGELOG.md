@@ -2,6 +2,9 @@
 
 ## 2026-10-12
 
+- "Yaptığımız işler" bölümü açıldı: dört proje (etkinlik mekânı sitesi, kurumsal hizmet sitesi, randevu ve müşteri takibi, muhasebe ve tahsilat). Kartlar kapak görseli, özet ve öne çıkan özellikleri gösterir; "İzle" video penceresini açar.
+- Video penceresi: telefon ekranı kaydı ve yanında tıklanabilir adım listesi; oynayan adım kendiliğinden işaretlenir. Pencere kapanınca indirme de durur.
+- `projects.json` şeması genişledi (`tag`, `features`, `poster`, `video`, `duration`, `chapters`); eski `image` alanı kaldırıldı.
 - Klasör düzeni: `dist/` → `public/`; stil dosyaları `public/css/`, betik `public/js/` altına alındı.
 - Kullanılmayan `app.ts`, `assets/`, `_codex-yedek/` ve `.openai/` silindi.
 - Firebase Hosting ayarı eklendi (`firebase.json`): güvenlik başlıkları ve önbellek süreleri.

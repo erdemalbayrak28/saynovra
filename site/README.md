@@ -16,27 +16,40 @@ Ardından `http://127.0.0.1:4173` adresini açın. Pano (kopyalama) özelliği y
 |---|---|
 | `public/index.html` | Sayfa içeriği ve metinler |
 | `public/css/styles.css` | Görünüm. Renk ve yazı tipi değişkenleri dosyanın başında |
-| `public/js/app.js` | Mobil menü, proje özeti formu, proje listesi |
-| `public/media/` | Hero videosu ve kapak görseli |
+| `public/js/app.js` | Mobil menü, proje özeti formu, proje listesi ve video penceresi |
+| `public/media/` | Hero videosu ve kapak görseli; `media/isler/` proje videoları ve kapakları |
 | `public/projects.json` | "İşler" bölümünün verisi |
 | `public/css/fonts.css`, `public/fonts/` | Yerel yazı tipleri (Space Grotesk, Inter, JetBrains Mono) |
 
 ## Proje eklemek
 
-`projects.json` boşken "İşler" bölümü ve menü bağlantısı gizlidir. Kayıt eklendiğinde kendiliğinden görünür.
+"İşler" bölümü `public/projects.json` dosyasından dolar. Dosya boşsa bölüm ve menü bağlantısı gizlenir.
 
 ```json
 [
   {
+    "tag": "Web sitesi",
     "title": "Proje adı",
     "description": "Bir iki cümlelik özet.",
-    "image": "media/proje.jpg",
+    "features": ["Öne çıkan özellik", "Bir diğeri"],
+    "poster": "media/isler/proje.jpg",
+    "video": "media/isler/proje.mp4",
+    "duration": 52,
+    "chapters": [{ "time": 3.7, "title": "Adım başlığı", "text": "Adımın açıklaması." }],
     "url": "https://ornek.com"
   }
 ]
 ```
 
-`image` ve `url` isteğe bağlıdır. Görsel aynı siteden, bağlantı `https` olmak zorundadır; diğerleri yok sayılır.
+Yalnızca `title` ve `description` zorunludur. `poster` 9:16 kapak görseli, `video` tıklayınca açılan kayıttır; `chapters` video penceresindeki tıklanabilir adım listesini oluşturur (`time` saniye). Görsel ve video aynı siteden, `url` ise `https` olmak zorundadır; diğerleri yok sayılır.
+
+Videolar `icerik/gonderiler/uygulama-tanitim-v2/` altındaki müzikli sürümlerden 720×1280 olarak küçültülür:
+
+```bash
+ffmpeg -i kaynak.mp4 -vf scale=720:1280 -c:v libx264 -preset slow -crf 30 -movflags +faststart -c:a aac -b:a 96k public/media/isler/proje.mp4
+```
+
+Adım listesinden videoda ileri atlamak sunucunun parçalı indirmeyi (HTTP Range) desteklemesine bağlıdır. Firebase Hosting destekler; `python -m http.server` desteklemediği için yerelde adıma tıklamak videoyu başa sarar.
 
 ## İletişim kanalı
 

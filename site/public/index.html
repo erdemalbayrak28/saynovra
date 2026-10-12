@@ -286,9 +286,12 @@
 
     <section class="section" id="isler" aria-labelledby="work-title" hidden>
       <div class="wrap">
-        <header class="section-head">
-          <p class="eyebrow">04 / İşler</p>
-          <h2 id="work-title">Yaptığımız <em>işler.</em></h2>
+        <header class="section-head work-head">
+          <div>
+            <p class="eyebrow">04 / İşler</p>
+            <h2 id="work-title">Yaptığımız <em>işler.</em></h2>
+          </div>
+          <p class="work-note">Geliştirdiğimiz projelerin telefon ekranı kayıtları. Müşteri adları gizlendi, ekranlardaki kayıtlar örnek veridir.</p>
         </header>
         <div class="projects" id="projects"></div>
       </div>
@@ -355,6 +358,22 @@
       </div>
     </section>
   </main>
+
+  <dialog class="work-dialog" id="work-dialog" aria-labelledby="work-dialog-title">
+    <div class="work-dialog-grid">
+      <div class="work-stage">
+        <video id="work-video" controls playsinline preload="none" width="720" height="1280"></video>
+      </div>
+      <div class="work-info">
+        <p class="eyebrow" id="work-dialog-tag"></p>
+        <h3 id="work-dialog-title"></h3>
+        <p class="work-dialog-text" id="work-dialog-text"></p>
+        <ol class="chapters" id="work-chapters" aria-label="Videodaki adımlar"></ol>
+        <a class="btn btn-lime btn-small" id="work-dialog-cta" href="#iletisim">Benzerini konuşalım <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <button class="work-close" id="work-close" type="button" aria-label="Videoyu kapat"></button>
+  </dialog>
 
   <footer class="footer">
     <div class="wrap footer-row">

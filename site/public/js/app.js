@@ -2,6 +2,7 @@ const INSTAGRAM_HANDLE = '@saynovra';
 const MAX_PROJECTS = 30;
 
 const byId = (id) => document.getElementById(id);
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 // ── mobile menu ──────────────────────────────────────
 const menu = byId('menu');
@@ -86,10 +87,15 @@ description.addEventListener('input', () => {
 function isProject(value) {
   if (typeof value !== 'object' || value === null) return false;
   const optionalString = (field) => field === undefined || typeof field === 'string';
-  return typeof value.title === 'string' && typeof value.description === 'string' && optionalString(value.image) && optionalString(value.url);
+  const isChapter = (c) => typeof c === 'object' && c !== null && Number.isFinite(c.time) && c.time >= 0 && typeof c.title === 'string' && typeof c.text === 'string';
+  return typeof value.title === 'string' && typeof value.description === 'string'
+    && ['tag', 'poster', 'video', 'url'].every((field) => optionalString(value[field]))
+    && (value.duration === undefined || (Number.isFinite(value.duration) && value.duration > 0))
+    && (value.features === undefined || (Array.isArray(value.features) && value.features.every((f) => typeof f === 'string')))
+    && (value.chapters === undefined || (Array.isArray(value.chapters) && value.chapters.every(isChapter)));
 }
 
-// Images must be same-origin; outbound links must be https.
+// Media must be same-origin; outbound links must be https.
 function safeUrl(value, { sameOrigin }) {
   try {
     const url = new URL(value, window.location.href);
@@ -100,36 +106,58 @@ function safeUrl(value, { sameOrigin }) {
   }
 }
 
-function projectCard(project) {
-  const card = document.createElement('article');
-  card.className = 'project';
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
 
-  const imageUrl = project.image ? safeUrl(project.image, { sameOrigin: true }) : null;
-  if (imageUrl) {
-    const image = document.createElement('img');
-    image.src = imageUrl;
+const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+
+function projectCard(project) {
+  const card = el('article', 'project');
+  const posterUrl = project.poster ? safeUrl(project.poster, { sameOrigin: true }) : null;
+  const videoUrl = project.video ? safeUrl(project.video, { sameOrigin: true }) : null;
+
+  if (posterUrl) {
+    const media = el(videoUrl ? 'button' : 'div', 'project-media');
+    const image = el('img');
+    image.src = posterUrl;
     image.alt = '';
-    image.width = 960;
-    image.height = 600;
+    image.width = 540;
+    image.height = 960;
     image.loading = 'lazy';
-    card.append(image);
+    media.append(image);
+    if (videoUrl) {
+      media.type = 'button';
+      media.setAttribute('aria-label', `${project.title}: videoyu izle`);
+      const play = el('span', 'project-play');
+      play.setAttribute('aria-hidden', 'true');
+      play.append(el('span', 'project-play-label', 'İzle'));
+      if (project.duration) play.append(el('span', 'project-play-time', clock(project.duration)));
+      media.append(play);
+      media.addEventListener('click', () => openWork(project, videoUrl, posterUrl));
+    }
+    card.append(media);
   }
 
-  const body = document.createElement('div');
-  body.className = 'project-body';
-  const title = document.createElement('h3');
-  title.textContent = project.title;
-  const text = document.createElement('p');
-  text.textContent = project.description;
-  body.append(title, text);
+  const body = el('div', 'project-body');
+  if (project.tag) body.append(el('p', 'project-tag', project.tag));
+  body.append(el('h3', '', project.title), el('p', 'project-text', project.description));
+
+  if (project.features?.length) {
+    const list = el('ul', 'project-features');
+    list.append(...project.features.map((feature) => el('li', '', feature)));
+    body.append(list);
+  }
 
   const linkUrl = project.url ? safeUrl(project.url, { sameOrigin: false }) : null;
   if (linkUrl) {
-    const link = document.createElement('a');
+    const link = el('a', 'project-link', 'Projeyi incele ↗');
     link.href = linkUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    link.textContent = 'Projeyi incele ↗';
     link.setAttribute('aria-label', `${project.title} projesini yeni sekmede incele`);
     body.append(link);
   }
@@ -137,6 +165,77 @@ function projectCard(project) {
   card.append(body);
   return card;
 }
+
+// ── project player: video with a clickable chapter list ──
+const workDialog = byId('work-dialog');
+const workVideo = byId('work-video');
+const workChapters = byId('work-chapters');
+let chapterTimes = [];
+
+function syncChapters() {
+  let active = -1;
+  chapterTimes.forEach((time, index) => { if (workVideo.currentTime >= time - 0.05) active = index; });
+  [...workChapters.children].forEach((item, index) => {
+    const button = item.firstElementChild;
+    const isActive = index === active;
+    if ((button.getAttribute('aria-current') === 'true') === isActive) return;
+    if (isActive) {
+      button.setAttribute('aria-current', 'true');
+      if (workChapters.scrollHeight > workChapters.clientHeight) {
+        workChapters.scrollTo({ top: item.offsetTop - workChapters.offsetTop - 8, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+      }
+    } else {
+      button.removeAttribute('aria-current');
+    }
+  });
+}
+
+function chapterItem(chapter) {
+  const item = el('li');
+  const button = el('button', 'chapter');
+  button.type = 'button';
+  button.append(el('span', 'chapter-time', clock(chapter.time)), el('span', 'chapter-title', chapter.title), el('span', 'chapter-text', chapter.text));
+  button.addEventListener('click', () => {
+    workVideo.currentTime = chapter.time;
+    workVideo.play().catch(() => {});
+    // On phones the list sits below the video; bring the video back into view.
+    workDialog.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+  });
+  item.append(button);
+  return item;
+}
+
+function openWork(project, videoUrl, posterUrl) {
+  byId('work-dialog-tag').textContent = project.tag ?? '';
+  byId('work-dialog-title').textContent = project.title;
+  byId('work-dialog-text').textContent = project.description;
+  const chapters = project.chapters ?? [];
+  chapterTimes = chapters.map((chapter) => chapter.time);
+  workChapters.replaceChildren(...chapters.map(chapterItem));
+  workChapters.hidden = chapters.length === 0;
+  workVideo.poster = posterUrl;
+  workVideo.src = videoUrl;
+  workDialog.showModal();
+  workVideo.play().catch(() => {});
+}
+
+function closeWork() {
+  if (workDialog.open) workDialog.close();
+}
+
+workVideo.addEventListener('timeupdate', syncChapters);
+workVideo.addEventListener('seeked', syncChapters);
+workDialog.addEventListener('close', () => {
+  // Dropping the source stops the download as well as the playback.
+  workVideo.pause();
+  workVideo.removeAttribute('src');
+  workVideo.load();
+});
+workDialog.addEventListener('click', (event) => {
+  if (event.target === workDialog) closeWork();
+});
+byId('work-close').addEventListener('click', closeWork);
+byId('work-dialog-cta').addEventListener('click', closeWork);
 
 async function loadProjects() {
   try {
@@ -156,7 +255,6 @@ async function loadProjects() {
 
 // ── hero video: show the still poster for visitors who asked for less motion ──
 const heroVideo = byId('hero-video');
-const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 function syncHeroVideo() {
   if (reducedMotion.matches) {
     heroVideo.pause();

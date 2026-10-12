@@ -1,1 +1,257 @@
-[]
+[
+  {
+    "tag": "Web sitesi",
+    "title": "Etkinlik mekânı sitesi",
+    "description": "Düğün, nişan ve kına için mekân arayan ziyaretçiyi telefondan rezervasyon talebine götüren site.",
+    "features": [
+      "WhatsApp'a hazır rezervasyon mesajı",
+      "Filtrelenebilir fotoğraf galerisi",
+      "Etkinlik türüne göre kartlar"
+    ],
+    "poster": "media/isler/mekan-sitesi.jpg",
+    "video": "media/isler/mekan-sitesi.mp4",
+    "duration": 52,
+    "chapters": [
+      {
+        "time": 1.6,
+        "title": "Açılış ekranı",
+        "text": "Mekânı ilk bakışta anlatan giriş ve tek dokunuşla WhatsApp."
+      },
+      {
+        "time": 3.7,
+        "title": "Mobil menü",
+        "text": "Tüm bölümler tek dokunuş uzağında."
+      },
+      {
+        "time": 9.1,
+        "title": "Organizasyon kartları",
+        "text": "Her etkinlik türü kendi kartında; detay için tek dokunuş."
+      },
+      {
+        "time": 13.5,
+        "title": "Rezervasyon formu",
+        "text": "Etkinlik türü, kişi sayısı, menü ve tarih seçilir."
+      },
+      {
+        "time": 21.2,
+        "title": "WhatsApp'a hazır mesaj",
+        "text": "Form, doldurulmuş bir mesajla WhatsApp sohbetini açar."
+      },
+      {
+        "time": 26.6,
+        "title": "Mekân sekmeleri",
+        "text": "Bahçe ve gelin odası ayrı sekmelerde, kaydırmalı fotoğraflarla."
+      },
+      {
+        "time": 35.2,
+        "title": "Filtrelenebilir galeri",
+        "text": "Ziyaretçi aradığı konsepti tek dokunuşla süzer."
+      },
+      {
+        "time": 38.2,
+        "title": "Tam ekran fotoğraf",
+        "text": "Fotoğrafa dokununca büyür."
+      },
+      {
+        "time": 44.8,
+        "title": "Sık sorulan sorular",
+        "text": "Cevap, soruya dokununca açılır."
+      }
+    ]
+  },
+  {
+    "tag": "Web sitesi",
+    "title": "Kurumsal hizmet sitesi",
+    "description": "Üç dilde yayın yapan, teklif talebini tek formda toplayan hizmet sitesi.",
+    "features": [
+      "Türkçe, İngilizce ve Arapça",
+      "Arapçada sağdan sola düzen",
+      "Formdan WhatsApp teklifine"
+    ],
+    "poster": "media/isler/kurumsal-site.jpg",
+    "video": "media/isler/kurumsal-site.mp4",
+    "duration": 59,
+    "chapters": [
+      {
+        "time": 1.6,
+        "title": "Açılış ekranı",
+        "text": "Güven veren rakamlar ve iki net çağrı butonu."
+      },
+      {
+        "time": 3.7,
+        "title": "3 dilli site",
+        "text": "Türkçe, İngilizce ve Arapça tek dokunuşla değişir."
+      },
+      {
+        "time": 8.8,
+        "title": "Sağdan sola düzen",
+        "text": "Arapçada tüm sayfa kendiliğinden sağdan sola döner."
+      },
+      {
+        "time": 17.2,
+        "title": "Hizmet kartları",
+        "text": "Her hizmetin açıklaması ve bilgi al bağlantısı ayrı kartta."
+      },
+      {
+        "time": 22.1,
+        "title": "Süreç anlatımı",
+        "text": "İşin nasıl ilerlediği dört kolay adımda gösterilir."
+      },
+      {
+        "time": 27.7,
+        "title": "Teklif formu",
+        "text": "Belge türü, sayfa sayısı, dil ve teslim süresi seçilir."
+      },
+      {
+        "time": 38.2,
+        "title": "WhatsApp ile teklif",
+        "text": "Bilgiler hazır bir WhatsApp mesajına dönüşür."
+      },
+      {
+        "time": 44.7,
+        "title": "Google yorumları",
+        "text": "Puan ve müşteri yorumları sayfada görünür."
+      },
+      {
+        "time": 49.1,
+        "title": "Sık sorulan sorular",
+        "text": "Cevap, soruya dokununca açılır."
+      },
+      {
+        "time": 52.6,
+        "title": "Sabit alt çubuk",
+        "text": "Ara, WhatsApp, Teklif ve Yol Tarifi her an elinin altında."
+      }
+    ]
+  },
+  {
+    "tag": "CRM",
+    "title": "Randevu ve müşteri takibi",
+    "description": "Randevuları, kaporaları ve bekleyen tahsilatı tek ekranda toplayan yönetim paneli.",
+    "features": [
+      "Ciro ve kapora özeti",
+      "Aylık takvim görünümü",
+      "Filtrele, Excel'e aktar"
+    ],
+    "poster": "media/isler/randevu-crm.jpg",
+    "video": "media/isler/randevu-crm.mp4",
+    "duration": 54,
+    "chapters": [
+      {
+        "time": 1.6,
+        "title": "Tek bakışta durum",
+        "text": "Toplam etkinlik, ciro, kapora ve bekleyen tahsilat."
+      },
+      {
+        "time": 3.7,
+        "title": "Ciro detayı",
+        "text": "Karta dokun: hangi müşteriden ne geldiğini gör."
+      },
+      {
+        "time": 7.9,
+        "title": "Yeni randevu",
+        "text": "Müşteri, etkinlik, tarih ve kapora tek formda."
+      },
+      {
+        "time": 15.5,
+        "title": "Kaydet, hepsi güncellensin",
+        "text": "Kayıt eklenince liste ve rakamlar anında yenilenir."
+      },
+      {
+        "time": 20.4,
+        "title": "İsimle arama",
+        "text": "Yazdıkça liste süzülür."
+      },
+      {
+        "time": 25.5,
+        "title": "WhatsApp kısayolu",
+        "text": "Numaranın yanındaki WA ile müşteriye tek dokunuşla yaz."
+      },
+      {
+        "time": 27.5,
+        "title": "Takvim görünümü",
+        "text": "Ay ay ciro, kapora ve etkinlik sayısı."
+      },
+      {
+        "time": 36.0,
+        "title": "Takvimden detaya",
+        "text": "Randevuya dokun, tüm bilgisi açılsın."
+      },
+      {
+        "time": 42.7,
+        "title": "Filtreler",
+        "text": "Kaynak, durum ve etkinlik türüne göre süz."
+      },
+      {
+        "time": 47.5,
+        "title": "Excel'e aktar",
+        "text": "Süzülen liste tek dokunuşla Excel dosyasına dönüşür."
+      }
+    ]
+  },
+  {
+    "tag": "Finans",
+    "title": "Muhasebe ve tahsilat",
+    "description": "Fatura, alacak, kasa ve hatırlatmaları bir arada tutan ön muhasebe uygulaması.",
+    "features": [
+      "Vadesi geçen alacak takibi",
+      "Kısmi ödeme ve kalan bakiye",
+      "12 aylık gelir-gider grafiği"
+    ],
+    "poster": "media/isler/muhasebe.jpg",
+    "video": "media/isler/muhasebe.mp4",
+    "duration": 49,
+    "chapters": [
+      {
+        "time": 1.6,
+        "title": "Bugün yapılacaklar",
+        "text": "Günün hatırlatmaları panelin en üstünde durur."
+      },
+      {
+        "time": 3.7,
+        "title": "Tek dokunuşla tamamla",
+        "text": "Aylık tekrarlayan iş, sonraki aya kendiliğinden kurulur."
+      },
+      {
+        "time": 6.9,
+        "title": "WhatsApp hatırlatma",
+        "text": "Borçlu firmaya hazır mesajla tek dokunuşla yaz."
+      },
+      {
+        "time": 11.1,
+        "title": "Alacak takibi",
+        "text": "Bekleyen alacak ve vadesi geçen tutar ayrı ayrı görünür."
+      },
+      {
+        "time": 15.8,
+        "title": "Fatura detayı",
+        "text": "Tutar, tahsil edilen ve kalan tek ekranda."
+      },
+      {
+        "time": 21.0,
+        "title": "Kısmi ödeme",
+        "text": "Ödemeyi gir; kalan bakiye kendiliğinden hesaplanır."
+      },
+      {
+        "time": 27.2,
+        "title": "Tüm modüller tek menüde",
+        "text": "İşler, firmalar, faturalar, kasa ve hatırlatıcılar."
+      },
+      {
+        "time": 30.6,
+        "title": "İş takibi",
+        "text": "Açık ve geciken işler, iş başına net kâr."
+      },
+      {
+        "time": 35.3,
+        "title": "Kasa",
+        "text": "Dönem dönem gelir, gider ve net kâr."
+      },
+      {
+        "time": 43.1,
+        "title": "12 aylık trend",
+        "text": "Gelir-gider grafiği kendiliğinden çizilir."
+      }
+    ]
+  }
+]

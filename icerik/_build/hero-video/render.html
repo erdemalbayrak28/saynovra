@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../site/dist/fonts.css">
+<style>
+  html, body { margin: 0; background: #0a0d14; }
+  #sheet { display: grid; }
+  svg { display: block; }
+  text { font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 5px; }
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script>
+// Deterministic frame renderer: render(t) draws the loop at t in [0, 1).
+// ?start=N&count=M&cols=C&frames=F lays M consecutive frames out as a sprite sheet for one screenshot.
+const W = 1080, H = 1350;
+const SCALE = 1.8, OX = 180, OY = 261;         // logo placement on the canvas
+const INK = '#0a0d14', LIME = '#c8f031', WHITE = '#eef1f6';
+const TRACK = 'M340 62H88V230H312V398H60';
+const CORNERS = [[340, 62], [88, 62], [88, 230], [312, 230], [312, 398], [60, 398]];
+const LENGTH = 1064;                            // track length in logo units
+const TAIL = 260;
+const COMETS = 2, LAPS = 2;                     // each comet runs the track LAPS times per loop
+const NODE_API = 420, NODE_AI = 644;            // distance of the two ring nodes along the track
+const CYCLES = COMETS * LAPS;                   // departures per loop
+const TRAVEL = 0.3;                             // chip flight time, as a fraction of the loop
+const ARRIVAL = (LENGTH / (LENGTH + TAIL)) / LAPS;
+
+const frac = (x) => x - Math.floor(x);
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const bell = (x, width) => Math.exp(-((x / width) ** 2));
+const toCanvas = ([x, y]) => [OX + x * SCALE, OY + y * SCALE];
+const START = toCanvas(CORNERS[0]);
+const END = toCanvas(CORNERS[5]);
+
+const CHIPS_IN = [[1190, 150], [960, -90], [1200, 540], [700, -90], [1190, 320], [850, -90], [1190, 40], [1150, 680]];
+const CHIPS_OUT = [[-130, 1060], [130, 1450], [-120, 820], [430, 1460], [-130, 1240], [260, 1450], [-110, 950], [30, 1440]];
+
+const heads = (t) => Array.from({ length: COMETS }, (_, i) => frac(t * LAPS + i / COMETS) * (LENGTH + TAIL));
+
+function comet(head) {
+  const layer = (length, opacity, extra = '') =>
+    `<path d="${TRACK}" fill="none" stroke="${LIME}" stroke-width="46" stroke-linejoin="round" stroke-opacity="${opacity}" stroke-dasharray="${length} 99999" stroke-dashoffset="${length - head}" ${extra}/>`;
+  // Stacked translucent dashes of growing length read as one smooth fading tail.
+  const STEPS = 14;
+  let tail = '';
+  for (let i = 0; i < STEPS; i++) tail += layer(TAIL - (i / STEPS) * (TAIL - 50), 0.085);
+  const cap = 'stroke-linecap="round"';
+  return tail + layer(34, 1, `${cap} filter="url(#glow)"`) + layer(34, 1, cap);
+}
+
+function ring(cx, distance, label, labelX, anchor, t) {
+  const passed = heads(t).map((head) => head - distance);
+  const lit = Math.max(...passed.map((d) => bell(d - 30, 120)));
+  const ripples = passed
+    .filter((d) => d > 0 && d < 380)
+    .map((d) => `<circle cx="${cx}" cy="230" r="${48 + d * 0.22}" fill="none" stroke="${LIME}" stroke-width="2" stroke-opacity="${(1 - d / 380) * 0.5}"/>`)
+    .join('');
+  const [x, y] = toCanvas([labelX, 230]);
+  return {
+    node: `${ripples}<circle cx="${cx}" cy="230" r="36" fill="${INK}" stroke="#3a4257" stroke-width="24"/>
+      <circle cx="${cx}" cy="230" r="36" fill="none" stroke="${LIME}" stroke-width="24" stroke-opacity="${lit}"/>`,
+    label: `<text x="${x}" y="${y + 9}" font-size="26" text-anchor="${anchor}" fill="#5d6579">${label}</text>
+      <text x="${x}" y="${y + 9}" font-size="26" text-anchor="${anchor}" fill="${LIME}" fill-opacity="${lit}">${label}</text>`,
+  };
+}
+
+function endDot([cx, cy], distance, t) {
+  const pulse = Math.max(...heads(t).map((head) => bell(head - distance, 130)));
+  return `<circle cx="${cx}" cy="${cy}" r="${53 + pulse * 26}" fill="${LIME}" fill-opacity="${0.22 * pulse}"/>
+    <circle cx="${cx}" cy="${cy}" r="${53 + pulse * 5}" fill="${LIME}"/>`;
+}
+
+// Quadratic curve from a to b, bowed sideways so chips do not fly in straight lines.
+function along(a, b, p, bow) {
+  const mx = (a[0] + b[0]) / 2 - (b[1] - a[1]) * bow;
+  const my = (a[1] + b[1]) / 2 + (b[0] - a[0]) * bow;
+  const q = 1 - p;
+  return [q * q * a[0] + 2 * q * p * mx + p * p * b[0], q * q * a[1] + 2 * q * p * my + p * p * b[1]];
+}
+
+function chipsIn(t) {
+  return CHIPS_IN.map((origin, i) => {
+    const arrival = Math.floor(i / 2) / CYCLES;
+    const p = frac(t - arrival + TRAVEL) / TRAVEL;
+    if (p > 1) return '';
+    const eased = p ** 2.1;
+    const [x, y] = along(origin, START, eased, i % 2 ? 0.16 : -0.16);
+    const size = 1 - clamp((p - 0.72) / 0.28) * 0.85;
+    const opacity = clamp(p / 0.12) * (1 - clamp((p - 0.9) / 0.1));
+    const tilt = (i % 2 ? 1 : -1) * (1 - eased) * 14;
+    return `<g transform="translate(${x} ${y}) rotate(${tilt}) scale(${size * 1.55})" opacity="${opacity}">
+      <rect x="-50" y="-33" width="100" height="66" rx="14" fill="#10141d" stroke="#6b7590" stroke-width="2"/>
+      <rect x="-34" y="-17" width="18" height="18" rx="5" fill="#c8f031"/>
+      <rect x="-6" y="-15" width="40" height="5" rx="2.5" fill="#6b7590"/>
+      <rect x="-6" y="-4" width="26" height="5" rx="2.5" fill="#414a5f"/>
+      <rect x="-34" y="12" width="68" height="5" rx="2.5" fill="#414a5f"/></g>`;
+  }).join('');
+}
+
+function chipsOut(t) {
+  return CHIPS_OUT.map((target, i) => {
+    const departure = Math.floor(i / 2) / CYCLES + ARRIVAL;
+    const p = frac(t - departure) / TRAVEL;
+    if (p > 1) return '';
+    const eased = 1 - (1 - p) ** 2.4;
+    const [x, y] = along(END, target, eased, i % 2 ? 0.12 : -0.12);
+    const size = 0.25 + clamp(p / 0.2) * 0.75;
+    const opacity = clamp(p / 0.08) * (1 - clamp((p - 0.7) / 0.3));
+    return `<g transform="translate(${x} ${y}) scale(${size * 1.3})" opacity="${opacity}">
+      <rect x="-50" y="-33" width="100" height="66" rx="33" fill="${LIME}"/>
+      <path d="M-15 1l11 11 21-23" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  }).join('');
+}
+
+function dust(t) {
+  let out = '';
+  for (let i = 0; i < 16; i++) {
+    const x = frac(i * 0.6180339) * W;
+    const y = frac(i * 0.3819 + 1 - t) * H;
+    out += `<circle cx="${x}" cy="${y}" r="${i % 3 ? 2 : 3}" fill="${i % 4 ? WHITE : LIME}" fill-opacity="${0.1 + (i % 5) * 0.04}"/>`;
+  }
+  return out;
+}
+
+function render(t) {
+  const api = ring(88, NODE_API, 'API', 88 - 78, 'end', t);
+  const ai = ring(312, NODE_AI, 'AI', 312 + 78, 'start', t);
+  const breath = 0.5 + 0.5 * Math.sin(t * Math.PI * 2);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+    <defs>
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+      <radialGradient id="halo"><stop offset="0" stop-color="${LIME}" stop-opacity="0.2"/><stop offset="1" stop-color="${LIME}" stop-opacity="0"/></radialGradient>
+      <radialGradient id="fade"><stop offset="0.35" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+      <pattern id="grid" width="54" height="54" patternUnits="userSpaceOnUse"><circle cx="27" cy="27" r="1.6" fill="#2a3040"/></pattern>
+      <mask id="gridMask"><rect width="${W}" height="${H}" fill="url(#fade)"/></mask>
+    </defs>
+    <rect width="${W}" height="${H}" fill="${INK}"/>
+    <rect width="${W}" height="${H}" fill="url(#grid)" mask="url(#gridMask)"/>
+    <ellipse cx="${W / 2}" cy="${H / 2}" rx="${520 + breath * 40}" ry="${560 + breath * 40}" fill="url(#halo)" opacity="${0.55 + breath * 0.3}"/>
+    ${dust(t)}
+    ${chipsIn(t)}
+    <g transform="translate(${OX} ${OY}) scale(${SCALE})">
+      <path d="${TRACK}" fill="none" stroke="#1d2331" stroke-width="46" stroke-linejoin="round"/>
+      <path d="${TRACK}" fill="none" stroke="#2c3345" stroke-width="2" stroke-linejoin="round" stroke-dasharray="3 13"/>
+      ${heads(t).map(comet).join('')}
+      ${api.node}${ai.node}
+      ${endDot(CORNERS[0], 0, t)}${endDot(CORNERS[5], LENGTH, t)}
+    </g>
+    ${api.label}${ai.label}
+    ${chipsOut(t)}
+  </svg>`;
+}
+
+const params = new URLSearchParams(location.search);
+const frames = Number(params.get('frames') ?? 240);
+const start = Number(params.get('start') ?? 0);
+const count = Number(params.get('count') ?? 1);
+const cols = Number(params.get('cols') ?? 1);
+const sheet = document.getElementById('sheet');
+sheet.style.gridTemplateColumns = `repeat(${cols}, ${W}px)`;
+sheet.innerHTML = Array.from({ length: count }, (_, i) => render((start + i) / frames)).join('');
+</script>
+</body>
+</html>

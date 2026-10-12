@@ -1,0 +1,18 @@
+# bağımlılıklar ve ara çıktılar
+node_modules/
+__pycache__/
+icerik/_build/html/
+icerik/_build/hero-video/preview.png
+
+# üretilmiş videolar (büyük dosyalar; _build ile yeniden üretilir, site/public/media hariç)
+icerik/gonderiler/**/*.mp4
+marka/videolar/
+
+# Firebase ve yerel ayarlar
+.firebase/
+firebase-debug.log
+.env
+.env.*
+.claude/
+.DS_Store
+Thumbs.db

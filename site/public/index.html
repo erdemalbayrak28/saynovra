@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#0a0d14">
+  <meta name="description" content="SAYNOVRA: işletmelerin elle yaptığı işleri yazılıma, yapay zekâya ve otomasyona devrediyoruz. Web geliştirme, AI agent, MCP server, API entegrasyonu ve dijital büyüme.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="tr_TR">
+  <meta property="og:site_name" content="SAYNOVRA">
+  <meta property="og:title" content="SAYNOVRA · Fikirden çalışan sisteme.">
+  <meta property="og:url" content="https://saynovra.web.app/">
+  <meta property="og:image" content="https://saynovra.web.app/media/hero-poster.jpg">
+  <meta property="og:description" content="İşletmelerin elle yaptığı işleri yazılıma, yapay zekâya ve otomasyona devrediyoruz.">
+  <title>SAYNOVRA · Fikirden çalışan sisteme.</title>
+  <link rel="canonical" href="https://saynovra.web.app/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 400 460">
+      <path d="M340 62H88V230H312V398H60" fill="none" stroke="currentColor" stroke-width="46" stroke-linejoin="round"/>
+      <circle cx="88" cy="230" r="36" fill="var(--mark-bg)" stroke="currentColor" stroke-width="24"/>
+      <circle cx="312" cy="230" r="36" fill="var(--mark-bg)" stroke="currentColor" stroke-width="24"/>
+      <circle cx="340" cy="62" r="53" fill="var(--mark-dot)"/>
+      <circle cx="60" cy="398" r="53" fill="var(--mark-dot)"/>
+    </symbol>
+  </svg>
+
+  <a class="skip" href="#icerik">İçeriğe geç</a>
+
+  <header class="header">
+    <div class="wrap header-row">
+      <a class="brand" href="#ust" aria-label="SAYNOVRA, sayfa başı">
+        <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+        <span>SAYNOVRA</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Ana gezinme">
+        <a href="#simulasyon">Canlı Akış</a>
+        <a href="#hizmetler">Hizmetler</a>
+        <a href="#surec">Süreç</a>
+        <a href="#isler" id="nav-work" hidden>İşler</a>
+        <a href="#iletisim">İletişim</a>
+      </nav>
+      <a class="btn btn-lime btn-small header-cta" href="#iletisim">Projenizi konuşalım <span aria-hidden="true">↗</span></a>
+      <button class="menu" id="menu" type="button" aria-controls="nav" aria-expanded="false">Menü</button>
+    </div>
+  </header>
+
+  <main id="icerik">
+    <section class="hero" id="ust" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow" lang="en">Software • AI • Automation</p>
+          <h1 id="hero-title">Fikirden <em>çalışan</em> sisteme.</h1>
+          <p class="lead">İşletmelerin elle yaptığı işleri yazılıma, yapay zekâya ve otomasyona devrediyoruz.</p>
+          <div class="actions">
+            <a class="btn btn-lime" href="#iletisim">Projenizi konuşalım <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-ghost" href="#simulasyon">Nasıl çalışır? <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
+
+        <figure class="hero-media">
+          <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="media/hero-poster.jpg" width="720" height="900" aria-label="Animasyon: işler SAYNOVRA sistemine girer, API ve yapay zekâ adımlarından geçer, tamamlanmış olarak çıkar.">
+            <source src="media/hero.mp4" type="video/mp4">
+          </video>
+        </figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="pills" aria-label="Uzmanlık alanları">
+          <li>Web</li>
+          <li lang="en">AI</li>
+          <li>Otomasyon</li>
+          <li lang="en">Cloud</li>
+          <li class="pill-hot">Dijital büyüme</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-raised" id="simulasyon" aria-labelledby="sim-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">01 / Canlı Simülasyon</p>
+          <h2 id="sim-title">Sistem arka planda <em>nasıl çalışır?</em></h2>
+          <p class="lead">Bir AI ajanının ve otomasyon akışının milisaniyeler içinde nasıl karar verip işi bitirdiğini canlı test edin.</p>
+        </header>
+
+        <div class="sim-wrapper">
+          <div class="sim-tabs" role="tablist" aria-label="Simülasyon senaryoları">
+            <button class="sim-tab is-active" id="tab-ecommerce" type="button" role="tab" aria-selected="true" data-scenario="ecommerce">
+              <span class="sim-tab-num">01</span>
+              <span class="sim-tab-title">E-Ticaret & Fatura</span>
+            </button>
+            <button class="sim-tab" id="tab-support" type="button" role="tab" aria-selected="false" data-scenario="support">
+              <span class="sim-tab-num">02</span>
+              <span class="sim-tab-title">WhatsApp AI Ajanı</span>
+            </button>
+            <button class="sim-tab" id="tab-pricing" type="button" role="tab" aria-selected="false" data-scenario="pricing">
+              <span class="sim-tab-num">03</span>
+              <span class="sim-tab-title">B2B Fiyat & Entegrasyon</span>
+            </button>
+          </div>
+
+          <div class="sim-meta">
+            <div class="sim-meta-info">
+              <span class="sim-badge" id="sim-scenario-badge">E-Ticaret Sipariş Akışı</span>
+              <p class="sim-desc" id="sim-scenario-desc">Shopify/WooCommerce siparişi geldiğinde stok ERP sisteminden rezerve edilir, GİB e-arşiv faturası kesilir ve kargo etiketi oluşturulur.</p>
+            </div>
+            <div class="sim-meta-actions">
+              <button class="btn btn-ghost btn-small" id="sim-replay-btn" type="button">Tekrar Çalıştır <span aria-hidden="true">↺</span></button>
+              <a class="btn btn-lime btn-small" id="sim-cta-btn" href="#iletisim">Bu sistemi kuralım <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+
+          <div class="sim-pipeline" id="sim-pipeline" aria-label="İşlem adımları">
+            <div class="sim-step" data-step="trigger">
+              <div class="sim-step-dot" aria-hidden="true"></div>
+              <span class="sim-step-label">01 Tetikleyici</span>
+              <small class="sim-step-sub" id="pipe-trigger-sub">Shopify Webhook #4189</small>
+            </div>
+            <div class="sim-step-line" aria-hidden="true"></div>
+            <div class="sim-step" data-step="mcp">
+              <div class="sim-step-dot" aria-hidden="true"></div>
+              <span class="sim-step-label">02 MCP Server</span>
+              <small class="sim-step-sub" id="pipe-mcp-sub">ERP Stok & Fiyat Aracı</small>
+            </div>
+            <div class="sim-step-line" aria-hidden="true"></div>
+            <div class="sim-step" data-step="agent">
+              <div class="sim-step-dot" aria-hidden="true"></div>
+              <span class="sim-step-label">03 AI Ajanı</span>
+              <small class="sim-step-sub" id="pipe-agent-sub">Fatura & Kargo Karar Motoru</small>
+            </div>
+            <div class="sim-step-line" aria-hidden="true"></div>
+            <div class="sim-step" data-step="dispatch">
+              <div class="sim-step-dot" aria-hidden="true"></div>
+              <span class="sim-step-label">04 Sonuç</span>
+              <small class="sim-step-sub" id="pipe-dispatch-sub">GİB E-Fatura + Kargo API</small>
+            </div>
+          </div>
+
+          <div class="sim-terminal" id="sim-panel" role="region" aria-label="Terminal simülasyon konsolu">
+            <div class="terminal-bar">
+              <div class="terminal-dots" aria-hidden="true">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="terminal-title">saynovra-agent v2.4 · <span id="terminal-mode">ecommerce-flow.ts</span></div>
+              <div class="terminal-status is-running" id="terminal-status">
+                <span class="status-indicator" aria-hidden="true"></span>
+                <span id="terminal-status-text">ÇALIŞIYOR</span>
+              </div>
+            </div>
+
+            <div class="terminal-body" id="terminal-logs" tabindex="0" role="log" aria-live="polite"></div>
+
+            <div class="terminal-footer">
+              <div class="term-stat">
+                <span class="term-stat-label">Toplam Süre:</span>
+                <strong class="term-stat-val text-lime" id="stat-latency">0.38 sn</strong>
+              </div>
+              <div class="term-stat">
+                <span class="term-stat-label">Manuel İnsan Süresi:</span>
+                <strong class="term-stat-val" id="stat-human">~15 dakika</strong>
+              </div>
+              <div class="term-stat">
+                <span class="term-stat-label">Hata Payı:</span>
+                <strong class="term-stat-val text-lime">0.0%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="hizmetler" aria-labelledby="services-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">02 / Hizmetler</p>
+          <h2 id="services-title">Ne <em>yapıyoruz?</em></h2>
+        </header>
+
+        <div class="panels">
+          <article class="panel panel-dark">
+            <div class="panel-head">
+              <span class="panel-index">01</span>
+              <h3>Web <em>geliştirme.</em></h3>
+              <p>Sizi doğru anlatan, hızlı ve kolay yönetilen web sistemleri.</p>
+            </div>
+            <ul class="cards">
+              <li><span>01</span>Kurumsal site ve landing page</li>
+              <li class="hot"><span>02</span>Admin paneli ve dashboard</li>
+              <li><span>03</span>Mobil uyumlu ve hızlı</li>
+              <li><span>04</span>Bakım, güncelleme, yönetim</li>
+            </ul>
+          </article>
+
+          <article class="panel panel-dark">
+            <div class="panel-head">
+              <span class="panel-index">02</span>
+              <h3>Yapay <em>zekâ.</em></h3>
+              <p>Soruya cevap veren değil, işi kendisi yapan sistemler.</p>
+            </div>
+            <ul class="stack">
+              <li><span lang="en">Agent</span>AI agent ve chatbot</li>
+              <li class="hot"><span lang="en">MCP</span>MCP server çözümleri</li>
+              <li><span lang="en">ML</span>Makine öğrenmesi</li>
+              <li><span lang="en">Vision</span>Yüz tanıma, görüntü işleme</li>
+            </ul>
+          </article>
+
+          <article class="panel panel-light">
+            <div class="panel-head">
+              <span class="panel-index">03</span>
+              <h3>Tekrarlayan işleri <em>sistem</em> yapsın.</h3>
+              <p>Birbirinden kopuk araçları bağlıyor, elle yürüyen adımları otomatikleştiriyoruz.</p>
+            </div>
+            <ul class="rows">
+              <li><span>01</span>Süreç dijitalleştirme</li>
+              <li><span>02</span>API ve entegrasyonlar</li>
+              <li><span>03</span>API Gateway yapıları</li>
+              <li><span>04</span>Bulut altyapı kurulumu</li>
+            </ul>
+          </article>
+
+          <article class="panel panel-lime">
+            <div class="panel-head">
+              <span class="panel-index">04</span>
+              <h3>Bulunun, güvenilin, seçilin.</h3>
+              <p>İşletmenizin dijital görünürlüğünü tutarlı bir kimlikle güçlendiriyoruz.</p>
+            </div>
+            <ul class="rows">
+              <li><span>01</span>Google İşletme Profili</li>
+              <li><span>02</span>Sosyal medya görsel ve video</li>
+              <li><span>03</span>Reklam kreatifleri</li>
+              <li><span>04</span>Fotoğraf ve video çekimi</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-raised" id="surec" aria-labelledby="process-title">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">03 / Süreç</p>
+          <h2 id="process-title">Bir proje <em>4 adımda</em> ilerler.</h2>
+        </header>
+
+        <ol class="steps">
+          <li>
+            <span class="step-number" aria-hidden="true">01</span>
+            <h3>İhtiyaç</h3>
+            <p>Önce işinizi dinleriz. Hangi iş elle yapılıyor, nerede zaman kaybediliyor, ne ölçülecek?</p>
+            <p class="step-out">Net kapsam ve öncelik listesi</p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">02</span>
+            <h3>Mimari</h3>
+            <p>Hangi sistem neyle konuşacak, veri nerede duracak, güvenlik nasıl sağlanacak?</p>
+            <p class="step-out">Kod yazılmadan önce onayladığınız plan</p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">03</span>
+            <h3>Geliştirme</h3>
+            <p>Küçük parçalar hâlinde teslim. Her adımda çalışan bir şey görürsünüz.</p>
+            <p class="step-out">Test edilmiş, çalışan sistem</p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">04</span>
+            <h3>Canlı ve bakım</h3>
+            <p>Yayına alırız, izleriz, güncelleriz. Sistem büyüdükçe yanınızdayız.</p>
+            <p class="step-out">Kesintisiz çalışan altyapı</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="isler" aria-labelledby="work-title" hidden>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="eyebrow">04 / İşler</p>
+          <h2 id="work-title">Yaptığımız <em>işler.</em></h2>
+        </header>
+        <div class="projects" id="projects"></div>
+      </div>
+    </section>
+
+    <section class="section contact" id="iletisim" aria-labelledby="contact-title">
+      <div class="wrap contact-grid">
+        <div class="contact-copy">
+          <p class="eyebrow">İletişim</p>
+          <h2 id="contact-title">Hangi işi hâlâ elle yapıyorsunuz?</h2>
+          <p class="lead">Instagram'dan yazın, birlikte kuralım. Telefondaki ekrandan ihtiyacınızı birkaç satırda yazıp gönderin, özetiniz mesaja hazır olsun.</p>
+          <a class="btn btn-ink" href="https://ig.me/m/saynovra" target="_blank" rel="noopener noreferrer">Instagram'dan yazın <span aria-hidden="true">↗</span></a>
+        </div>
+
+        <form class="phone" id="brief" novalidate aria-label="Proje özeti">
+          <div class="phone-screen">
+            <div class="phone-status" aria-hidden="true">
+              <span>9:41</span>
+              <span class="phone-island"></span>
+              <span class="phone-icons"><i class="signal"></i><i class="battery"></i></span>
+            </div>
+
+            <div class="chat-head">
+              <span class="chat-avatar"><svg aria-hidden="true"><use href="#mark"/></svg></span>
+              <span class="chat-name">SAYNOVRA<small>@saynovra</small></span>
+            </div>
+
+            <div class="chat-body">
+              <p class="bubble bubble-in">Merhaba. Hangi işi hâlâ elle yapıyorsunuz?</p>
+
+              <fieldset>
+                <legend class="bubble bubble-in">Ne üzerine çalışalım?</legend>
+                <div class="choices">
+                  <label><input type="checkbox" name="service" value="Web geliştirme"><span>Web geliştirme</span></label>
+                  <label><input type="checkbox" name="service" value="Yapay zekâ"><span>Yapay zekâ</span></label>
+                  <label><input type="checkbox" name="service" value="Otomasyon"><span>Otomasyon</span></label>
+                  <label><input type="checkbox" name="service" value="Dijital büyüme"><span>Dijital büyüme</span></label>
+                </div>
+              </fieldset>
+
+              <label class="field">
+                <span>Adınız veya markanız <small>(isteğe bağlı)</small></span>
+                <input type="text" name="name" maxlength="120" autocomplete="organization">
+              </label>
+
+              <label class="field">
+                <span>Mesajınız</span>
+                <textarea name="description" id="description" rows="4" maxlength="1500" required aria-describedby="brief-status" placeholder="Çözmek istediğiniz işi yazın"></textarea>
+              </label>
+
+              <p class="bubble bubble-out" id="brief-output" hidden></p>
+              <p class="brief-status" id="brief-status" role="status" aria-live="polite"></p>
+            </div>
+
+            <div class="phone-dock">
+              <a class="dock-link" id="brief-open" href="https://ig.me/m/saynovra" target="_blank" rel="noopener noreferrer" hidden>Instagram'da aç ve yapıştır <span aria-hidden="true">↗</span></a>
+              <button class="send" type="submit" aria-label="Gönder"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <span class="send-label" aria-hidden="true">Gönder</span>
+              <p class="brief-note">Hiçbir yere veri gönderilmez. Özetiniz panonuza kopyalanır, Instagram mesajına siz yapıştırırsınız.</p>
+              <span class="phone-home" aria-hidden="true"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <a class="brand" href="#ust" aria-label="SAYNOVRA, sayfa başı">
+        <svg class="brand-mark" aria-hidden="true"><use href="#mark"/></svg>
+        <span>SAYNOVRA</span>
+      </a>
+      <p lang="en">Software • AI • Automation</p>
+      <a class="footer-link" href="https://www.instagram.com/saynovra/" target="_blank" rel="noopener noreferrer">@saynovra <span aria-hidden="true">↗</span></a>
+      <p>© <span id="year">2026</span> SAYNOVRA</p>
+    </div>
+  </footer>
+</body>
+</html>

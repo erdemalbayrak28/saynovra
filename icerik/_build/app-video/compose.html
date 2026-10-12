@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../../site/dist/fonts.css">
+<style>
+  :root { --lime: #c8f031; --ink: #0a0d14; --white: #eef1f6; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #bg, #scene, #wire, #card { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+
+  /* header */
+  #head { position: absolute; left: 56px; right: 56px; top: 104px; color: var(--white); text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
+  #kicker { font: 500 25px 'JetBrains Mono', monospace; letter-spacing: 0.16em; color: var(--lime); text-transform: uppercase; }
+  #title { margin-top: 16px; font: 700 70px/1.04 'Space Grotesk', sans-serif; letter-spacing: -0.035em; }
+  #title span { display: inline-block; white-space: pre; }
+  #progress { display: flex; gap: 8px; margin-top: 30px; }
+  #progress i { position: relative; flex: 1; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.2); overflow: hidden; }
+  #progress i b { position: absolute; inset: 0; border-radius: 3px; background: var(--lime); transform-origin: left center; }
+
+  /* phone */
+  #rig { position: absolute; width: 0; height: 0; perspective: 2400px; }
+  #phone {
+    position: absolute; left: -260px; top: -578px; width: 520px; padding: 11px; border-radius: 76px;
+    background: linear-gradient(145deg, #5a5e68, #1b1d23 28%, #0b0c0f 70%, #3b3f48);
+    box-shadow: 0 0 0 2px #05060a, 0 60px 110px -20px rgba(0, 0, 0, 0.7), 0 0 90px rgba(0, 0, 0, 0.25);
+    will-change: transform;
+  }
+  #phone::before, #phone::after { content: ''; position: absolute; width: 5px; border-radius: 3px; background: #24272e; }
+  #phone::before { left: -5px; top: 190px; height: 44px; box-shadow: 0 80px 0 #24272e, 0 150px 0 #24272e; }
+  #phone::after { right: -5px; top: 270px; height: 116px; }
+  #screen { position: relative; border-radius: 66px; overflow: hidden; background: #000; }
+  #status { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 58px; padding: 6px 38px 0; background: #000; color: #fff; font: 600 21px 'Inter', sans-serif; }
+  #island { width: 132px; height: 36px; border-radius: 20px; background: #000; box-shadow: 0 0 0 1.5px #1c1e24; }
+  #icons { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+  #icons i:first-child { width: 22px; height: 14px; background: linear-gradient(to right, #fff 4px, transparent 4px) 0 100% / 6px 100% repeat-x; clip-path: polygon(0 60%, 100% 0, 100% 100%, 0 100%); }
+  #icons i:last-child { position: relative; width: 31px; height: 15px; border: 1.5px solid #8d95aa; border-radius: 5px; }
+  #icons i:last-child::before { content: ''; position: absolute; inset: 1.5px 6px 1.5px 1.5px; border-radius: 2px; background: #fff; }
+  #view { position: relative; width: 498px; height: 1078px; }
+  #view img { position: absolute; inset: 0; width: 498px; height: 1078px; display: block; }
+  #overlay { position: absolute; left: 0; top: 58px; width: 498px; height: 1078px; pointer-events: none; }
+  #spot { position: absolute; border: 4px solid var(--lime); border-radius: 16px; box-shadow: 0 0 0 5px rgba(200, 240, 49, 0.22), 0 0 34px rgba(200, 240, 49, 0.55); }
+  .ring { position: absolute; width: 0; height: 0; }
+  .ring::before { content: ''; position: absolute; left: -40px; top: -40px; width: 80px; height: 80px; border-radius: 50%; border: 4px solid var(--lime); }
+  #mark { position: absolute; width: 2px; height: 2px; margin: -1px 0 0 -1px; }
+  #glare { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 38%); }
+  #home { position: absolute; left: 50%; bottom: 10px; width: 170px; height: 6px; margin-left: -85px; border-radius: 3px; background: rgba(255, 255, 255, 0.85); mix-blend-mode: difference; }
+
+  /* callout */
+  .callout { position: absolute; width: 424px; padding: 30px 30px 32px; border-radius: 32px; color: var(--white); background: rgba(8, 11, 18, 0.86); border: 1.5px solid rgba(255, 255, 255, 0.16); box-shadow: 0 30px 60px -18px rgba(0, 0, 0, 0.6); }
+  .callout .num { display: flex; align-items: center; gap: 12px; font: 500 24px 'JetBrains Mono', monospace; letter-spacing: 0.12em; color: var(--lime); }
+  .callout .num::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 6px rgba(200, 240, 49, 0.2); }
+  .callout .num small { font-size: 24px; color: rgba(238, 241, 246, 0.42); }
+  .callout .ttl { margin-top: 18px; font: 700 48px/1.07 'Space Grotesk', sans-serif; letter-spacing: -0.03em; text-wrap: balance; }
+  .callout .txt { margin-top: 14px; font: 400 31px/1.36 'Inter', sans-serif; color: #d3d8e3; text-wrap: pretty; }
+
+  /* outro */
+  #card { display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--ink); color: var(--white); text-align: center; }
+  #card svg { width: 250px; height: 288px; overflow: visible; }
+  #card .name { margin-top: 60px; font: 700 78px 'Space Grotesk', sans-serif; }
+  #card .line { margin-top: 16px; font: 400 36px 'Inter', sans-serif; color: #8d95aa; }
+  #card .big { margin-top: 124px; font: 600 62px 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+  #card .dm { margin-top: 26px; font: 500 28px 'JetBrains Mono', monospace; letter-spacing: 0.14em; color: var(--lime); text-transform: uppercase; }
+</style>
+</head>
+<body>
+<canvas id="bg" width="1080" height="1920"></canvas>
+<div id="scene">
+  <div id="head"><div id="kicker"></div><div id="title"></div><div id="progress"></div></div>
+  <div id="rig">
+    <div id="phone">
+      <div id="screen">
+        <div id="status"><span>9:41</span><span id="island"></span><span id="icons"><i></i><i></i></span></div>
+        <div id="view"><img id="app" alt=""><img id="appPrev" alt=""></div>
+        <div id="overlay"><div id="spot"></div><div class="ring" id="ring1"></div><div class="ring" id="ring2"></div><div id="mark"></div></div>
+        <div id="glare"></div>
+        <div id="home"></div>
+      </div>
+    </div>
+  </div>
+  <svg id="wire" viewBox="0 0 1080 1920">
+    <path id="wirePath" fill="none" stroke="#c8f031" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="1"/>
+    <circle id="wirePulse" r="12" fill="none" stroke="#c8f031" stroke-width="3"/>
+    <circle id="wireDot" r="10" fill="#c8f031" stroke="#0a0d14" stroke-width="3"/>
+  </svg>
+  <div class="callout" id="calloutPrev"><div class="num"></div><div class="ttl"></div><div class="txt"></div></div>
+  <div class="callout" id="calloutNow"><div class="num"></div><div class="ttl"></div><div class="txt"></div></div>
+</div>
+<div id="card">
+  <svg viewBox="0 0 400 460">
+    <path id="logoPath" d="M340 62H88V230H312V398H60" fill="none" stroke="#eef1f6" stroke-width="46" stroke-linejoin="round" stroke-dasharray="1064" />
+    <g id="logoRings"><circle cx="88" cy="230" r="36" fill="#0a0d14" stroke="#eef1f6" stroke-width="24"/><circle cx="312" cy="230" r="36" fill="#0a0d14" stroke="#eef1f6" stroke-width="24"/></g>
+    <circle id="logoDotA" cx="340" cy="62" r="53" fill="#c8f031"/>
+    <circle id="logoDotB" cx="60" cy="398" r="53" fill="#c8f031"/>
+  </svg>
+  <div class="name" id="cardName">SAYNOVRA</div>
+  <div class="line" id="cardLine" lang="en">Software • AI • Automation</div>
+  <div class="big" id="cardBig">Projenizi konuşalım.</div>
+  <div class="dm" id="cardDm">İletişim için DM</div>
+</div>
+
+<script src="backgrounds.js"></script>
+<script>
+// One product per video: the phone flies in, the recorded app frames play, callouts explain each step, then the outro.
+// renderFrame(f) is a pure function of the frame number.
+const FPS = 30, FLY_IN = 22, FLY_OUT = 14, OUTRO = 96;
+const K = 498 / 390;                 // recorded CSS pixel → screen pixel inside the phone
+const PHONE_SCALE = 1.08, PHONE_Y = 1020, CARD_W = 424, MARGIN = 36;
+const TAU = Math.PI * 2;
+const $ = (id) => document.getElementById(id);
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const easeOut = (p) => 1 - (1 - p) ** 3;
+const easeIn = (p) => p ** 3;
+const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - (-2 * p + 2) ** 3 / 2);
+const easeBack = (p) => 1 + 2.2 * (p - 1) ** 3 + 1.2 * (p - 1) ** 2;
+const ramp = (frame, start, length) => clamp((frame - start) / length);
+
+let cfg, total, phoneX, side;
+
+// Each theme moves the phone its own way. t: seconds, p: 0..1 through the video.
+const MOTIONS = {
+  garden: (t) => ({ ry: 7 * Math.sin(TAU * t / 9), rx: 3 * Math.sin(TAU * t / 7 + 1), rz: 1.8 * Math.sin(TAU * t / 6), x: 0, y: 10 * Math.sin(TAU * t / 5), s: 1 }),
+  space: (t) => ({ ry: 9 * Math.sin(TAU * t / 10), rx: 4.5 * Math.sin(TAU * t / 7 + 1), rz: 1.2 * Math.sin(TAU * t / 11), x: 0, y: 16 * Math.sin(TAU * t / 5.5), s: 1 }),
+  ocean: (t) => ({ ry: 5 * Math.sin(TAU * t / 8), rx: 2.5 * Math.sin(TAU * t / 6), rz: 2.4 * Math.sin(TAU * t / 6.5 + 0.6), x: 8 * Math.sin(TAU * t / 7), y: 20 * Math.sin(TAU * t / 4.6), s: 1 }),
+  sky: (t, p) => ({ ry: 8 - 16 * (p * p * (3 - 2 * p)), rx: 3 + 1.5 * Math.sin(TAU * t / 6), rz: 0, x: 0, y: 9 * Math.sin(TAU * t / 5.5), s: 0.975 + 0.04 * p }),
+};
+
+window.setup = (config) => {
+  cfg = config;
+  side = config.side;                                   // which side the phone sits on
+  phoneX = side === 'right' ? 1080 - 36 - 281 : 36 + 281;
+  total = FLY_IN + cfg.frames + FLY_OUT + OUTRO;
+  $('rig').style.left = `${phoneX}px`;
+  $('rig').style.top = `${PHONE_Y}px`;
+  $('kicker').textContent = cfg.kicker;
+  $('title').innerHTML = cfg.title.split(' ').map((word) => `<span>${word} </span>`).join('');
+  $('progress').innerHTML = cfg.steps.map(() => '<i><b></b></i>').join('');
+  for (const id of ['calloutPrev', 'calloutNow']) $(id).style.left = `${side === 'right' ? MARGIN : 1080 - MARGIN - CARD_W}px`;
+  return total;
+};
+
+// Point on the phone screen (recorded CSS px) → where it lands on the canvas once the phone is rotated.
+function project(x, y) {
+  const mark = $('mark');
+  mark.style.left = `${x * K}px`;
+  mark.style.top = `${y * K}px`;
+  const r = mark.getBoundingClientRect();
+  return [r.left + r.width / 2, r.top + r.height / 2];
+}
+
+// Vertical centre of a step's callout: level with what it points at, kept clear of the header.
+function cardY(step) {
+  const first = step.anchors[0];
+  const y = first ? PHONE_Y + (-578 + 11 + 58 + first.y * K) * PHONE_SCALE : PHONE_Y;
+  return Math.max(640, Math.min(1440, y));
+}
+
+function fillCallout(el, step, index) {
+  if (el.dataset.step === String(index)) return;
+  el.dataset.step = String(index);
+  el.children[0].innerHTML = `${String(index + 1).padStart(2, '0')} <small>/ ${String(cfg.steps.length).padStart(2, '0')}</small>`;
+  el.children[1].textContent = step.title;
+  el.children[2].textContent = step.text;
+}
+
+function showCallout(el, step, index, { opacity, shiftX = 0, shiftY = 0, scale = 1, stagger = null }) {
+  el.style.visibility = opacity > 0.001 ? 'visible' : 'hidden';
+  if (opacity <= 0.001) return;
+  fillCallout(el, step, index);
+  el.style.top = `${cardY(step)}px`;
+  el.style.opacity = opacity;
+  el.style.transform = `translate(${shiftX}px, calc(-50% + ${shiftY}px)) scale(${scale})`;
+  [...el.children].forEach((child, i) => {
+    const p = stagger === null ? 1 : easeOut(clamp((stagger - 3 - i * 3) / 9));
+    child.style.opacity = p;
+    child.style.transform = `translateY(${(1 - p) * 16}px)`;
+  });
+}
+
+function outro(k) {
+  $('card').style.visibility = k >= 0 ? 'visible' : 'hidden';
+  if (k < 0) return;
+  $('card').style.opacity = easeOut(ramp(k, 0, 10));
+  $('logoPath').style.strokeDashoffset = 1064 * (1 - easeInOut(ramp(k, 6, 30)));
+  $('logoRings').style.opacity = ramp(k, 22, 8);
+  for (const [id, start] of [['logoDotA', 4], ['logoDotB', 32]]) {
+    const el = $(id);
+    el.style.transformBox = 'fill-box';
+    el.style.transformOrigin = 'center';
+    el.style.transform = `scale(${Math.max(0, easeBack(ramp(k, start, 12)))})`;
+  }
+  const name = easeOut(ramp(k, 36, 16));
+  $('cardName').style.opacity = name;
+  $('cardName').style.letterSpacing = `${0.32 - 0.18 * name}em`;
+  $('cardName').style.paddingLeft = `${0.32 - 0.18 * name}em`;
+  for (const [id, start] of [['cardLine', 46], ['cardBig', 56], ['cardDm', 66]]) {
+    const p = easeOut(ramp(k, start, 14));
+    $(id).style.opacity = p;
+    $(id).style.transform = `translateY(${(1 - p) * 26}px)`;
+  }
+}
+
+window.renderFrame = async (f) => {
+  const time = f / FPS;
+  const af = f - FLY_IN;                                   // position in the recorded app timeline
+  const appFrame = Math.max(0, Math.min(cfg.frames - 1, af));
+  const exitStart = FLY_IN + cfg.frames;
+  drawBackground($('bg').getContext('2d'), cfg.theme, time);
+  outro(f - (exitStart + FLY_OUT - 4));
+
+  // ── phone ──
+  const dir = side === 'right' ? 1 : -1;
+  const enter = easeOut(ramp(f, 0, FLY_IN));
+  const exit = easeIn(ramp(f, exitStart, FLY_OUT));
+  const m = MOTIONS[cfg.theme](time, f / total);
+  const lastTap = cfg.taps.filter((tap) => tap.frame <= af).at(-1);
+  const sinceTap = lastTap ? af - lastTap.frame : 99;
+  const punch = sinceTap < 16 ? Math.sin(Math.PI * sinceTap / 16) * 0.022 : 0;
+  const x = m.x + dir * ((1 - enter) * 760 + exit * 760);
+  const ry = m.ry * (side === 'right' ? 1 : -1) + dir * ((1 - enter) * 55 + exit * 55);
+  $('phone').style.transform = `translate3d(${x}px, ${m.y + (1 - enter) * 60}px, 0) rotateY(${ry}deg) rotateX(${m.rx}deg) rotateZ(${m.rz}deg) scale(${PHONE_SCALE * m.s * (1 + punch)})`;
+  $('phone').style.opacity = clamp(enter * 3) * (1 - exit);
+  $('glare').style.opacity = 0.5 + ry / 50;
+
+  // ── app frames, cross-faded where the app changed page ──
+  const src = (n) => `${cfg.dir}/${String(n).padStart(4, '0')}.jpg`;
+  const app = $('app'), prev = $('appPrev');
+  if (app.dataset.src !== src(appFrame)) { app.dataset.src = src(appFrame); app.src = src(appFrame); await app.decode(); }
+  const cut = cfg.cuts.find((c) => c > 0 && appFrame >= c && appFrame < c + 9);
+  if (cut !== undefined) {
+    if (prev.dataset.src !== src(cut - 1)) { prev.dataset.src = src(cut - 1); prev.src = src(cut - 1); await prev.decode(); }
+    prev.style.opacity = 1 - easeInOut((appFrame - cut + 1) / 9);
+  } else prev.style.opacity = 0;
+
+  // ── header ──
+  const headOut = 1 - exit;
+  $('kicker').style.opacity = easeOut(ramp(f, 2, 12)) * headOut;
+  [...$('title').children].forEach((word, i) => {
+    const p = easeOut(ramp(f, 5 + i * 3, 14));
+    word.style.opacity = p * headOut;
+    word.style.transform = `translateY(${(1 - p) * 34}px)`;
+  });
+  const current = cfg.steps.findLastIndex((step) => step.frame <= af);
+  [...$('progress').children].forEach((segment, i) => {
+    const start = cfg.steps[i].frame, end = i + 1 < cfg.steps.length ? cfg.steps[i + 1].frame : cfg.frames;
+    segment.style.opacity = easeOut(ramp(f, 12 + i * 2, 10)) * headOut;
+    segment.firstChild.style.transform = `scaleX(${clamp((af - start) / (end - start))})`;
+  });
+
+  // ── callouts ──
+  const now = $('calloutNow'), old = $('calloutPrev');
+  if (current < 0) { now.style.visibility = 'hidden'; old.style.visibility = 'hidden'; }
+  else {
+    const step = cfg.steps[current];
+    const age = af - step.frame;
+    const pop = easeBack(clamp(age / 13));
+    showCallout(now, step, current, { opacity: clamp(age / 5) * headOut, shiftX: (1 - pop) * -52 * dir, scale: 0.94 + 0.06 * pop, stagger: age });
+    if (current > 0 && age < 10) {
+      const q = easeIn(age / 10);
+      showCallout(old, cfg.steps[current - 1], current - 1, { opacity: 1 - q, shiftY: -34 * q, scale: 1 - 0.05 * q });
+    } else old.style.visibility = 'hidden';
+  }
+
+  // ── pointer: outline, connector and tap rings ──
+  const step = current >= 0 ? cfg.steps[current] : null;
+  const anchor = step?.anchors.filter((a) => a.frame <= af && af < a.until + 7).at(-1);
+  const spot = $('spot'), wire = $('wire');
+  if (!anchor || exit > 0) { spot.style.opacity = 0; wire.style.opacity = 0; }
+  else {
+    const life = clamp((af - anchor.frame - 4) / 11) * (1 - clamp((af - anchor.until) / 7));
+    if (anchor.box) {
+      const b = anchor.box, grow = 1 + 0.07 * (1 - easeOut(clamp((af - anchor.frame) / 10)));
+      spot.style.left = `${b.x * K}px`; spot.style.top = `${b.y * K}px`;
+      spot.style.width = `${b.w * K}px`; spot.style.height = `${b.h * K}px`;
+      spot.style.transform = `scale(${grow})`;
+      spot.style.opacity = clamp((af - anchor.frame) / 6) * (1 - clamp((af - anchor.until) / 7)) * (0.82 + 0.18 * Math.sin(TAU * time / 1.1));
+    } else spot.style.opacity = 0;
+
+    // The connector leaves the callout's phone-facing edge and lands on the tap point, or on the outline's near edge.
+    const targetX = anchor.box ? (side === 'right' ? anchor.box.x : anchor.box.x + anchor.box.w) : anchor.x;
+    const [ax, ay] = project(targetX, anchor.y);
+    const sx = side === 'right' ? MARGIN + CARD_W : 1080 - MARGIN - CARD_W, sy = cardY(step);
+    const bend = Math.abs(ax - sx) * 0.55 * dir;
+    $('wirePath').setAttribute('d', `M${sx} ${sy} C${sx + bend} ${sy} ${ax - bend} ${ay} ${ax} ${ay}`);
+    $('wirePath').style.strokeDashoffset = 1 - easeInOut(clamp((af - anchor.frame - 4) / 11));
+    const landed = clamp((af - anchor.frame - 13) / 5);
+    const beat = ((af - anchor.frame) % 28) / 28;
+    for (const id of ['wireDot', 'wirePulse']) { $(id).setAttribute('cx', ax); $(id).setAttribute('cy', ay); }
+    $('wireDot').style.opacity = landed;
+    $('wirePulse').setAttribute('r', 12 + beat * 26);
+    $('wirePulse').style.opacity = landed * (1 - beat);
+    wire.style.opacity = life;
+  }
+  [[$('ring1'), 0], [$('ring2'), 5]].forEach(([ring, delay]) => {
+    const p = lastTap ? (sinceTap - delay) / 16 : -1;
+    if (p < 0 || p > 1) { ring.style.opacity = 0; return; }
+    ring.style.left = `${lastTap.x * K}px`; ring.style.top = `${lastTap.y * K}px`;
+    ring.style.transform = `scale(${0.35 + easeOut(p) * 1.5})`;
+    ring.style.opacity = (1 - p) * 0.95;
+  });
+  $('scene').style.opacity = 1 - clamp((f - (exitStart + FLY_OUT - 2)) / 6);
+};
+</script>
+</body>
+</html>

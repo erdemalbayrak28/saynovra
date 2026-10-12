@@ -1,5 +1,6 @@
 const INSTAGRAM_HANDLE = '@saynovra';
 const MAX_PROJECTS = 30;
+const MAX_SLIDES = 24;
 
 const byId = (id) => document.getElementById(id);
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -84,15 +85,28 @@ description.addEventListener('input', () => {
 });
 
 // ── projects: rendered from projects.json, section stays hidden while it is empty ──
+const isPercent = (value) => Number.isFinite(value) && value >= 0 && value <= 100;
+const isMark = (mark, keys) => typeof mark === 'object' && mark !== null && keys.every((key) => isPercent(mark[key]));
+
+// A recorded screen: an image, optionally with a tap ring (spot) or an outline (box) in percent of the image.
+function isScreen(value) {
+  return typeof value === 'object' && value !== null && typeof value.image === 'string'
+    && (value.spot === undefined || isMark(value.spot, ['x', 'y']))
+    && (value.box === undefined || isMark(value.box, ['x', 'y', 'w', 'h']));
+}
+
+function isSlide(value) {
+  return isScreen(value) && typeof value.title === 'string' && typeof value.text === 'string'
+    && (value.before === undefined || isScreen(value.before));
+}
+
 function isProject(value) {
   if (typeof value !== 'object' || value === null) return false;
   const optionalString = (field) => field === undefined || typeof field === 'string';
-  const isChapter = (c) => typeof c === 'object' && c !== null && Number.isFinite(c.time) && c.time >= 0 && typeof c.title === 'string' && typeof c.text === 'string';
   return typeof value.title === 'string' && typeof value.description === 'string'
-    && ['tag', 'poster', 'video', 'url'].every((field) => optionalString(value[field]))
-    && (value.duration === undefined || (Number.isFinite(value.duration) && value.duration > 0))
+    && ['tag', 'poster', 'url'].every((field) => optionalString(value[field]))
     && (value.features === undefined || (Array.isArray(value.features) && value.features.every((f) => typeof f === 'string')))
-    && (value.chapters === undefined || (Array.isArray(value.chapters) && value.chapters.every(isChapter)));
+    && (value.slides === undefined || (Array.isArray(value.slides) && value.slides.length <= MAX_SLIDES && value.slides.every(isSlide)));
 }
 
 // Media must be same-origin; outbound links must be https.
@@ -113,15 +127,25 @@ function el(tag, className, text) {
   return node;
 }
 
-const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+// Slides with their image URLs checked; a slide whose image is not ours is dropped.
+function tourSlides(project) {
+  const screen = (value) => {
+    const image = safeUrl(value.image, { sameOrigin: true });
+    return image ? { image, spot: value.spot, box: value.box } : null;
+  };
+  return (project.slides ?? []).flatMap((slide) => {
+    const main = screen(slide);
+    return main ? [{ ...main, title: slide.title, text: slide.text, before: slide.before ? screen(slide.before) : null }] : [];
+  });
+}
 
 function projectCard(project) {
   const card = el('article', 'project');
   const posterUrl = project.poster ? safeUrl(project.poster, { sameOrigin: true }) : null;
-  const videoUrl = project.video ? safeUrl(project.video, { sameOrigin: true }) : null;
+  const slides = tourSlides(project);
 
   if (posterUrl) {
-    const media = el(videoUrl ? 'button' : 'div', 'project-media');
+    const media = el(slides.length ? 'button' : 'div', 'project-media');
     const image = el('img');
     image.src = posterUrl;
     image.alt = '';
@@ -129,15 +153,14 @@ function projectCard(project) {
     image.height = 960;
     image.loading = 'lazy';
     media.append(image);
-    if (videoUrl) {
+    if (slides.length) {
       media.type = 'button';
-      media.setAttribute('aria-label', `${project.title}: videoyu izle`);
-      const play = el('span', 'project-play');
-      play.setAttribute('aria-hidden', 'true');
-      play.append(el('span', 'project-play-label', 'İzle'));
-      if (project.duration) play.append(el('span', 'project-play-time', clock(project.duration)));
-      media.append(play);
-      media.addEventListener('click', () => openWork(project, videoUrl, posterUrl));
+      media.setAttribute('aria-label', `${project.title}: ${slides.length} adımda incele`);
+      const open = el('span', 'project-play');
+      open.setAttribute('aria-hidden', 'true');
+      open.append(el('span', 'project-play-label', 'İncele'), el('span', 'project-play-time', `${slides.length} adım`));
+      media.append(open);
+      media.addEventListener('click', () => openWork(project, slides));
     }
     card.append(media);
   }
@@ -166,70 +189,138 @@ function projectCard(project) {
   return card;
 }
 
-// ── project player: video with a clickable chapter list ──
+// ── project tour: recorded screens, one step at a time ──
+const TAP_PREVIEW_MS = 1500;
 const workDialog = byId('work-dialog');
-const workVideo = byId('work-video');
-const workChapters = byId('work-chapters');
-let chapterTimes = [];
+const tourPhone = byId('work-phone');
+const tourShots = [...tourPhone.querySelectorAll('.tour-shot')];
+const tourMark = byId('work-mark');
+const tourSteps = byId('work-steps');
+const tourProgress = byId('work-progress');
+// run: bumped on every slide change so late image loads from an earlier slide are ignored.
+// reveal: set while a tap preview is on screen; calling it shows the screen that follows the tap.
+const tour = { slides: [], index: 0, run: 0, timer: 0, reveal: null };
+const twoDigits = (n) => String(n).padStart(2, '0');
 
-function syncChapters() {
-  let active = -1;
-  chapterTimes.forEach((time, index) => { if (workVideo.currentTime >= time - 0.05) active = index; });
-  [...workChapters.children].forEach((item, index) => {
-    const button = item.firstElementChild;
-    const isActive = index === active;
-    if ((button.getAttribute('aria-current') === 'true') === isActive) return;
-    if (isActive) {
-      button.setAttribute('aria-current', 'true');
-      if (workChapters.scrollHeight > workChapters.clientHeight) {
-        workChapters.scrollTo({ top: item.offsetTop - workChapters.offsetTop - 8, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-      }
-    } else {
-      button.removeAttribute('aria-current');
-    }
-  });
+function loadImage(url) {
+  const image = new Image();
+  image.src = url;
+  return image.decode().catch(() => {});
 }
 
-function chapterItem(chapter) {
+// Cross-fades the phone to a screen and places its ring or outline.
+async function showScreen(screen, run) {
+  await loadImage(screen.image);
+  if (run !== tour.run) return;
+  const back = tourShots.find((shot) => !shot.classList.contains('is-front'));
+  back.src = screen.image;
+  tourShots.forEach((shot) => shot.classList.toggle('is-front', shot === back));
+  const mark = screen.spot ?? screen.box;
+  tourMark.hidden = !mark;
+  if (!mark) return;
+  tourMark.className = screen.spot ? 'tour-mark is-spot' : 'tour-mark is-box';
+  for (const key of ['x', 'y', 'w', 'h']) tourMark.style.setProperty(`--${key}`, mark[key] === undefined ? '0' : `${mark[key]}%`);
+}
+
+function showSlide(index) {
+  const slide = tour.slides[index];
+  if (!slide) return;
+  const run = ++tour.run;
+  clearTimeout(tour.timer);
+  tour.index = index;
+  tour.reveal = null;
+
+  const last = index === tour.slides.length - 1;
+  byId('work-count').textContent = `${twoDigits(index + 1)} / ${twoDigits(tour.slides.length)}`;
+  byId('work-step-title').textContent = slide.title;
+  byId('work-step-text').textContent = slide.text;
+  byId('work-prev').disabled = index === 0;
+  byId('work-next-label').textContent = last ? 'Baştan' : 'İleri';
+  [...tourProgress.children].forEach((item, i) => item.classList.toggle('is-done', i <= index));
+  [...tourSteps.children].forEach((item, i) => {
+    if (i === index) item.firstElementChild.setAttribute('aria-current', 'step');
+    else item.firstElementChild.removeAttribute('aria-current');
+  });
+
+  if (slide.before && !reducedMotion.matches) {
+    // First where the finger goes, then the screen that follows.
+    tour.reveal = () => { tour.reveal = null; void showScreen(slide, run); };
+    void showScreen(slide.before, run).then(() => {
+      if (run !== tour.run || !tour.reveal) return;
+      void loadImage(slide.image);
+      tour.timer = setTimeout(() => tour.reveal?.(), TAP_PREVIEW_MS);
+    });
+  } else {
+    void showScreen(slide, run);
+  }
+  const next = tour.slides[index + 1];
+  if (next) void loadImage((next.before ?? next).image);
+}
+
+// During a tap preview "next" shows its result first, so no screen is skipped.
+function advance() {
+  if (tour.reveal) {
+    clearTimeout(tour.timer);
+    tour.reveal();
+    return;
+  }
+  showSlide(tour.index === tour.slides.length - 1 ? 0 : tour.index + 1);
+}
+
+function stepItem(slide, index) {
   const item = el('li');
   const button = el('button', 'chapter');
   button.type = 'button';
-  button.append(el('span', 'chapter-time', clock(chapter.time)), el('span', 'chapter-title', chapter.title), el('span', 'chapter-text', chapter.text));
-  button.addEventListener('click', () => {
-    workVideo.currentTime = chapter.time;
-    workVideo.play().catch(() => {});
-    // On phones the list sits below the video; bring the video back into view.
-    workDialog.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-  });
+  button.append(el('span', 'chapter-time', twoDigits(index + 1)), el('span', 'chapter-title', slide.title));
+  button.addEventListener('click', () => showSlide(index));
   item.append(button);
   return item;
 }
 
-function openWork(project, videoUrl, posterUrl) {
+function openWork(project, slides) {
   byId('work-dialog-tag').textContent = project.tag ?? '';
   byId('work-dialog-title').textContent = project.title;
-  byId('work-dialog-text').textContent = project.description;
-  const chapters = project.chapters ?? [];
-  chapterTimes = chapters.map((chapter) => chapter.time);
-  workChapters.replaceChildren(...chapters.map(chapterItem));
-  workChapters.hidden = chapters.length === 0;
-  workVideo.poster = posterUrl;
-  workVideo.src = videoUrl;
+  tour.slides = slides;
+  tourProgress.replaceChildren(...slides.map(() => el('li')));
+  tourSteps.replaceChildren(...slides.map(stepItem));
+  tourShots.forEach((shot) => { shot.removeAttribute('src'); shot.classList.remove('is-front'); });
+  tourMark.hidden = true;
   workDialog.showModal();
-  workVideo.play().catch(() => {});
+  showSlide(0);
 }
 
 function closeWork() {
   if (workDialog.open) workDialog.close();
 }
 
-workVideo.addEventListener('timeupdate', syncChapters);
-workVideo.addEventListener('seeked', syncChapters);
+// Swipe on the phone; a swipe must not also count as the click that follows it.
+let swipeStart = null;
+let swiped = false;
+tourPhone.addEventListener('pointerdown', (event) => { swipeStart = event.clientX; swiped = false; });
+tourPhone.addEventListener('pointercancel', () => { swipeStart = null; });
+tourPhone.addEventListener('pointerup', (event) => {
+  if (swipeStart === null) return;
+  const distance = event.clientX - swipeStart;
+  swipeStart = null;
+  if (Math.abs(distance) < 40) return;
+  swiped = true;
+  if (distance < 0) advance();
+  else showSlide(tour.index - 1);
+});
+tourPhone.addEventListener('click', () => {
+  if (swiped) { swiped = false; return; }
+  advance();
+});
+byId('work-next').addEventListener('click', advance);
+byId('work-prev').addEventListener('click', () => showSlide(tour.index - 1));
+workDialog.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowRight') advance();
+  else if (event.key === 'ArrowLeft') showSlide(tour.index - 1);
+});
 workDialog.addEventListener('close', () => {
-  // Dropping the source stops the download as well as the playback.
-  workVideo.pause();
-  workVideo.removeAttribute('src');
-  workVideo.load();
+  clearTimeout(tour.timer);
+  tour.run++;
+  tour.reveal = null;
 });
 workDialog.addEventListener('click', (event) => {
   if (event.target === workDialog) closeWork();
@@ -495,21 +586,9 @@ ctaBtn?.addEventListener('click', (e) => {
   byId('iletisim')?.scrollIntoView({ behavior: 'smooth' });
 });
 
-// Run on load or intersection
-let simObserverTriggered = false;
-const simSection = byId('simulasyon');
-if (simSection && 'IntersectionObserver' in window) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !simObserverTriggered) {
-        simObserverTriggered = true;
-        runSimulation('ecommerce');
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.2 });
-  observer.observe(simSection);
-} else {
-  runSimulation('ecommerce');
-}
+// The simulator sits in the "Otomasyon" tab of the laptop demo (js/demo.js): start it when the tab opens.
+document.addEventListener('demo:tab', (event) => {
+  if (event.detail === 'os-tab-flow') runSimulation(currentScenario);
+  else clearSimulationTimeouts();
+});
 

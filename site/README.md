@@ -16,10 +16,23 @@ Ardından `http://127.0.0.1:4173` adresini açın. Pano (kopyalama) özelliği y
 |---|---|
 | `public/index.html` | Sayfa içeriği ve metinler |
 | `public/css/styles.css` | Görünüm. Renk ve yazı tipi değişkenleri dosyanın başında |
-| `public/js/app.js` | Mobil menü, proje özeti formu, proje listesi ve video penceresi |
-| `public/media/` | Hero videosu ve kapak görseli; `media/isler/` proje videoları ve kapakları |
+| `public/js/app.js` | Mobil menü, proje özeti formu, proje listesi ve adım adım galeri, otomasyon simülatörü |
+| `public/js/demo.js` | Bilgisayar ekranındaki randevu ve ön muhasebe demoları |
+| `public/media/` | Hero videosu ve kapak görseli; `media/isler/` proje kapakları ve galeri ekranları |
 | `public/projects.json` | "İşler" bölümünün verisi |
 | `public/css/fonts.css`, `public/fonts/` | Yerel yazı tipleri (Space Grotesk, Inter, JetBrains Mono) |
+
+## Canlı demo (bilgisayar ekranı)
+
+"Canlı Demo" bölümündeki bilgisayarın üç sekmesi var:
+
+| Sekme | Ne yapar | Kod |
+|---|---|---|
+| Randevu paneli | Randevu ekleme, isimle arama, duruma göre süzme, tahsilat, aylık takvim | `public/js/demo.js` |
+| Ön muhasebe | Faturaya kısmi ödeme, hatırlatma tamamlama, gider ekleme, 12 aylık grafik | `public/js/demo.js` |
+| Otomasyon | Üç senaryolu otomasyon akışı ve terminal kaydı | `public/js/app.js` (`SIMULATION_SCENARIOS`) |
+
+Demo gerçek uygulamaların kopyası değildir; aynı işleyişi gösteren, tarayıcıda çalışan küçük bir örnektir. Veriler `demo.js` içindeki `seed()` fonksiyonundan gelir, bellekte tutulur, sayfa yenilenince ya da "Sıfırla"ya basınca ilk haline döner. Hiçbir şey kaydedilmez veya gönderilmez. Tarihler bugüne göre üretildiği için takvim her zaman dolu görünür.
 
 ## Proje eklemek
 
@@ -33,23 +46,29 @@ Ardından `http://127.0.0.1:4173` adresini açın. Pano (kopyalama) özelliği y
     "description": "Bir iki cümlelik özet.",
     "features": ["Öne çıkan özellik", "Bir diğeri"],
     "poster": "media/isler/proje.jpg",
-    "video": "media/isler/proje.mp4",
-    "duration": 52,
-    "chapters": [{ "time": 3.7, "title": "Adım başlığı", "text": "Adımın açıklaması." }],
+    "slides": [
+      {
+        "title": "Adım başlığı",
+        "text": "Bu ekranda ne olduğu.",
+        "image": "media/isler/proje/01.webp",
+        "before": { "image": "media/isler/proje/01a.webp", "spot": { "x": 42.5, "y": 48 } }
+      },
+      { "title": "Bir sonraki adım", "text": "Açıklama.", "image": "media/isler/proje/02.webp", "box": { "x": 3, "y": 26, "w": 94, "h": 30 } }
+    ],
     "url": "https://ornek.com"
   }
 ]
 ```
 
-Yalnızca `title` ve `description` zorunludur. `poster` 9:16 kapak görseli, `video` tıklayınca açılan kayıttır; `chapters` video penceresindeki tıklanabilir adım listesini oluşturur (`time` saniye). Görsel ve video aynı siteden, `url` ise `https` olmak zorundadır; diğerleri yok sayılır.
+Yalnızca `title` ve `description` zorunludur. `poster` 9:16 kapak görselidir. `slides` karta basınca açılan adım adım galeriyi oluşturur:
 
-Videolar `icerik/gonderiler/uygulama-tanitim-v2/` altındaki müzikli sürümlerden 720×1280 olarak küçültülür:
+- `image`: adımın telefon ekranı (390×844 oranında).
+- `before`: isteğe bağlı. Önce dokunulan yeri gösteren ekran çıkar, bir buçuk saniye sonra `image` ekranına geçilir.
+- `spot`: dokunma halkası, `box`: çerçeve. Değerler görselin yüzdesi cinsindendir.
 
-```bash
-ffmpeg -i kaynak.mp4 -vf scale=720:1280 -c:v libx264 -preset slow -crf 30 -movflags +faststart -c:a aac -b:a 96k public/media/isler/proje.mp4
-```
+Görseller aynı siteden, `url` ise `https` olmak zorundadır; diğerleri yok sayılır.
 
-Adım listesinden videoda ileri atlamak sunucunun parçalı indirmeyi (HTTP Range) desteklemesine bağlıdır. Firebase Hosting destekler; `python -m http.server` desteklemediği için yerelde adıma tıklamak videoyu başa sarar.
+Mevcut dört projenin ekranları ve `slides` kayıtları uygulama kayıtlarından üretilir; elle düzenlemek yerine `icerik/_build/app-video/gallery.py` içindeki `PICKS` listesini değiştirip betiği yeniden çalıştırın (bkz. `icerik/_build/app-video/README.md`).
 
 ## İletişim kanalı
 

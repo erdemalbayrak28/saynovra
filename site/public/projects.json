@@ -9,53 +9,102 @@
       "Etkinlik türüne göre kartlar"
     ],
     "poster": "media/isler/mekan-sitesi.jpg",
-    "video": "media/isler/mekan-sitesi.mp4",
-    "duration": 52,
-    "chapters": [
+    "slides": [
       {
-        "time": 1.6,
         "title": "Açılış ekranı",
-        "text": "Mekânı ilk bakışta anlatan giriş ve tek dokunuşla WhatsApp."
+        "text": "Mekânı ilk bakışta anlatan giriş ve tek dokunuşla WhatsApp.",
+        "image": "media/isler/mekan-sitesi/01.webp",
+        "box": {
+          "x": 3.46,
+          "y": 94.68,
+          "w": 74.25,
+          "h": 4.85
+        }
       },
       {
-        "time": 3.7,
         "title": "Mobil menü",
-        "text": "Tüm bölümler tek dokunuş uzağında."
+        "text": "Tüm bölümler tek dokunuş uzağında.",
+        "before": {
+          "image": "media/isler/mekan-sitesi/02a.webp",
+          "spot": {
+            "x": 92.13,
+            "y": 7.67
+          }
+        },
+        "image": "media/isler/mekan-sitesi/02.webp"
       },
       {
-        "time": 9.1,
         "title": "Organizasyon kartları",
-        "text": "Her etkinlik türü kendi kartında; detay için tek dokunuş."
+        "text": "Her etkinlik türü kendi kartında; detay için tek dokunuş.",
+        "image": "media/isler/mekan-sitesi/03.webp",
+        "box": {
+          "x": 3.46,
+          "y": 51.37,
+          "w": 93.08,
+          "h": 42.49
+        }
       },
       {
-        "time": 13.5,
         "title": "Rezervasyon formu",
-        "text": "Etkinlik türü, kişi sayısı, menü ve tarih seçilir."
+        "text": "Etkinlik türü, kişi sayısı, menü ve tarih seçilir.",
+        "image": "media/isler/mekan-sitesi/04.webp"
       },
       {
-        "time": 21.2,
         "title": "WhatsApp'a hazır mesaj",
-        "text": "Form, doldurulmuş bir mesajla WhatsApp sohbetini açar."
+        "text": "Form, doldurulmuş bir mesajla WhatsApp sohbetini açar.",
+        "image": "media/isler/mekan-sitesi/05.webp",
+        "spot": {
+          "x": 50.0,
+          "y": 44.37
+        }
       },
       {
-        "time": 26.6,
         "title": "Mekân sekmeleri",
-        "text": "Bahçe ve gelin odası ayrı sekmelerde, kaydırmalı fotoğraflarla."
+        "text": "Bahçe ve gelin odası ayrı sekmelerde, kaydırmalı fotoğraflarla.",
+        "before": {
+          "image": "media/isler/mekan-sitesi/06a.webp",
+          "spot": {
+            "x": 66.93,
+            "y": 21.24
+          }
+        },
+        "image": "media/isler/mekan-sitesi/06.webp"
       },
       {
-        "time": 35.2,
         "title": "Filtrelenebilir galeri",
-        "text": "Ziyaretçi aradığı konsepti tek dokunuşla süzer."
+        "text": "Ziyaretçi aradığı konsepti tek dokunuşla süzer.",
+        "before": {
+          "image": "media/isler/mekan-sitesi/07a.webp",
+          "spot": {
+            "x": 52.66,
+            "y": 29.83
+          }
+        },
+        "image": "media/isler/mekan-sitesi/07.webp"
       },
       {
-        "time": 38.2,
         "title": "Tam ekran fotoğraf",
-        "text": "Fotoğrafa dokununca büyür."
+        "text": "Fotoğrafa dokununca büyür.",
+        "before": {
+          "image": "media/isler/mekan-sitesi/08a.webp",
+          "spot": {
+            "x": 43.46,
+            "y": 53.11
+          }
+        },
+        "image": "media/isler/mekan-sitesi/08.webp"
       },
       {
-        "time": 44.8,
         "title": "Sık sorulan sorular",
-        "text": "Cevap, soruya dokununca açılır."
+        "text": "Cevap, soruya dokununca açılır.",
+        "before": {
+          "image": "media/isler/mekan-sitesi/09a.webp",
+          "spot": {
+            "x": 43.46,
+            "y": 44.93
+          }
+        },
+        "image": "media/isler/mekan-sitesi/09.webp"
       }
     ]
   },
@@ -69,58 +118,114 @@
       "Formdan WhatsApp teklifine"
     ],
     "poster": "media/isler/kurumsal-site.jpg",
-    "video": "media/isler/kurumsal-site.mp4",
-    "duration": 59,
-    "chapters": [
+    "slides": [
       {
-        "time": 1.6,
         "title": "Açılış ekranı",
-        "text": "Güven veren rakamlar ve iki net çağrı butonu."
+        "text": "Güven veren rakamlar ve iki net çağrı butonu.",
+        "image": "media/isler/kurumsal-site/01.webp",
+        "box": {
+          "x": 2.56,
+          "y": 57.64,
+          "w": 94.87,
+          "h": 21.66
+        }
       },
       {
-        "time": 3.7,
         "title": "3 dilli site",
-        "text": "Türkçe, İngilizce ve Arapça tek dokunuşla değişir."
+        "text": "Türkçe, İngilizce ve Arapça tek dokunuşla değişir.",
+        "before": {
+          "image": "media/isler/kurumsal-site/02a.webp",
+          "spot": {
+            "x": 76.67,
+            "y": 14.72
+          }
+        },
+        "image": "media/isler/kurumsal-site/02.webp"
       },
       {
-        "time": 8.8,
         "title": "Sağdan sola düzen",
-        "text": "Arapçada tüm sayfa kendiliğinden sağdan sola döner."
+        "text": "Arapçada tüm sayfa kendiliğinden sağdan sola döner.",
+        "before": {
+          "image": "media/isler/kurumsal-site/03a.webp",
+          "spot": {
+            "x": 76.67,
+            "y": 19.69
+          }
+        },
+        "image": "media/isler/kurumsal-site/03.webp"
       },
       {
-        "time": 17.2,
         "title": "Hizmet kartları",
-        "text": "Her hizmetin açıklaması ve bilgi al bağlantısı ayrı kartta."
+        "text": "Her hizmetin açıklaması ve bilgi al bağlantısı ayrı kartta.",
+        "image": "media/isler/kurumsal-site/04.webp",
+        "box": {
+          "x": 2.56,
+          "y": 20.09,
+          "w": 94.87,
+          "h": 34.02
+        }
       },
       {
-        "time": 22.1,
         "title": "Süreç anlatımı",
-        "text": "İşin nasıl ilerlediği dört kolay adımda gösterilir."
+        "text": "İşin nasıl ilerlediği dört kolay adımda gösterilir.",
+        "image": "media/isler/kurumsal-site/05.webp",
+        "box": {
+          "x": 2.56,
+          "y": 27.7,
+          "w": 94.87,
+          "h": 34.44
+        }
       },
       {
-        "time": 27.7,
         "title": "Teklif formu",
-        "text": "Belge türü, sayfa sayısı, dil ve teslim süresi seçilir."
+        "text": "Belge türü, sayfa sayısı, dil ve teslim süresi seçilir.",
+        "image": "media/isler/kurumsal-site/06.webp"
       },
       {
-        "time": 38.2,
         "title": "WhatsApp ile teklif",
-        "text": "Bilgiler hazır bir WhatsApp mesajına dönüşür."
+        "text": "Bilgiler hazır bir WhatsApp mesajına dönüşür.",
+        "before": {
+          "image": "media/isler/kurumsal-site/07a.webp",
+          "spot": {
+            "x": 47.95,
+            "y": 52.48
+          }
+        },
+        "image": "media/isler/kurumsal-site/07.webp"
       },
       {
-        "time": 44.7,
         "title": "Google yorumları",
-        "text": "Puan ve müşteri yorumları sayfada görünür."
+        "text": "Puan ve müşteri yorumları sayfada görünür.",
+        "image": "media/isler/kurumsal-site/08.webp",
+        "box": {
+          "x": 2.56,
+          "y": 20.13,
+          "w": 94.87,
+          "h": 12.28
+        }
       },
       {
-        "time": 49.1,
         "title": "Sık sorulan sorular",
-        "text": "Cevap, soruya dokununca açılır."
+        "text": "Cevap, soruya dokununca açılır.",
+        "before": {
+          "image": "media/isler/kurumsal-site/09a.webp",
+          "spot": {
+            "x": 42.82,
+            "y": 36.53
+          }
+        },
+        "image": "media/isler/kurumsal-site/09.webp"
       },
       {
-        "time": 52.6,
         "title": "Sabit alt çubuk",
-        "text": "Ara, WhatsApp, Teklif ve Yol Tarifi her an elinin altında."
+        "text": "Ara, WhatsApp, Teklif ve Yol Tarifi her an elinin altında.",
+        "image": "media/isler/kurumsal-site/10.webp",
+        "box": {
+          "x": 1.03,
+          "y": 92.86,
+          "w": 97.95,
+          "h": 6.67
+        }
       }
     ]
   },
@@ -134,58 +239,123 @@
       "Filtrele, Excel'e aktar"
     ],
     "poster": "media/isler/randevu-crm.jpg",
-    "video": "media/isler/randevu-crm.mp4",
-    "duration": 54,
-    "chapters": [
+    "slides": [
       {
-        "time": 1.6,
         "title": "Tek bakışta durum",
-        "text": "Toplam etkinlik, ciro, kapora ve bekleyen tahsilat."
+        "text": "Toplam etkinlik, ciro, kapora ve bekleyen tahsilat.",
+        "image": "media/isler/randevu-crm/01.webp",
+        "box": {
+          "x": 2.56,
+          "y": 25.75,
+          "w": 94.87,
+          "h": 73.77
+        }
       },
       {
-        "time": 3.7,
         "title": "Ciro detayı",
-        "text": "Karta dokun: hangi müşteriden ne geldiğini gör."
+        "text": "Karta dokun: hangi müşteriden ne geldiğini gör.",
+        "before": {
+          "image": "media/isler/randevu-crm/02a.webp",
+          "spot": {
+            "x": 42.56,
+            "y": 48.03
+          }
+        },
+        "image": "media/isler/randevu-crm/02.webp"
       },
       {
-        "time": 7.9,
         "title": "Yeni randevu",
-        "text": "Müşteri, etkinlik, tarih ve kapora tek formda."
+        "text": "Müşteri, etkinlik, tarih ve kapora tek formda.",
+        "before": {
+          "image": "media/isler/randevu-crm/03a.webp",
+          "spot": {
+            "x": 42.56,
+            "y": 20.59
+          }
+        },
+        "image": "media/isler/randevu-crm/03.webp"
       },
       {
-        "time": 15.5,
         "title": "Kaydet, hepsi güncellensin",
-        "text": "Kayıt eklenince liste ve rakamlar anında yenilenir."
+        "text": "Kayıt eklenince liste ve rakamlar anında yenilenir.",
+        "before": {
+          "image": "media/isler/randevu-crm/04a.webp",
+          "spot": {
+            "x": 45.64,
+            "y": 62.62
+          }
+        },
+        "image": "media/isler/randevu-crm/04.webp"
       },
       {
-        "time": 20.4,
         "title": "İsimle arama",
-        "text": "Yazdıkça liste süzülür."
+        "text": "Yazdıkça liste süzülür.",
+        "before": {
+          "image": "media/isler/randevu-crm/05a.webp",
+          "spot": {
+            "x": 36.15,
+            "y": 44.3
+          }
+        },
+        "image": "media/isler/randevu-crm/05.webp"
       },
       {
-        "time": 25.5,
         "title": "WhatsApp kısayolu",
-        "text": "Numaranın yanındaki WA ile müşteriye tek dokunuşla yaz."
+        "text": "Numaranın yanındaki WA ile müşteriye tek dokunuşla yaz.",
+        "image": "media/isler/randevu-crm/06.webp",
+        "box": {
+          "x": 43.32,
+          "y": 89.65,
+          "w": 17.62,
+          "h": 4.43
+        }
       },
       {
-        "time": 27.5,
         "title": "Takvim görünümü",
-        "text": "Ay ay ciro, kapora ve etkinlik sayısı."
+        "text": "Ay ay ciro, kapora ve etkinlik sayısı.",
+        "before": {
+          "image": "media/isler/randevu-crm/07a.webp",
+          "spot": {
+            "x": 70.17,
+            "y": 67.22
+          }
+        },
+        "image": "media/isler/randevu-crm/07.webp"
       },
       {
-        "time": 36.0,
         "title": "Takvimden detaya",
-        "text": "Randevuya dokun, tüm bilgisi açılsın."
+        "text": "Randevuya dokun, tüm bilgisi açılsın.",
+        "before": {
+          "image": "media/isler/randevu-crm/08a.webp",
+          "spot": {
+            "x": 29.24,
+            "y": 85.29
+          }
+        },
+        "image": "media/isler/randevu-crm/08.webp"
       },
       {
-        "time": 42.7,
         "title": "Filtreler",
-        "text": "Kaynak, durum ve etkinlik türüne göre süz."
+        "text": "Kaynak, durum ve etkinlik türüne göre süz.",
+        "before": {
+          "image": "media/isler/randevu-crm/09a.webp",
+          "spot": {
+            "x": 64.23,
+            "y": 53.17
+          }
+        },
+        "image": "media/isler/randevu-crm/09.webp"
       },
       {
-        "time": 47.5,
         "title": "Excel'e aktar",
-        "text": "Süzülen liste tek dokunuşla Excel dosyasına dönüşür."
+        "text": "Süzülen liste tek dokunuşla Excel dosyasına dönüşür.",
+        "image": "media/isler/randevu-crm/10.webp",
+        "box": {
+          "x": 2.56,
+          "y": 12.67,
+          "w": 94.87,
+          "h": 5.59
+        }
       }
     ]
   },
@@ -199,58 +369,122 @@
       "12 aylık gelir-gider grafiği"
     ],
     "poster": "media/isler/muhasebe.jpg",
-    "video": "media/isler/muhasebe.mp4",
-    "duration": 49,
-    "chapters": [
+    "slides": [
       {
-        "time": 1.6,
         "title": "Bugün yapılacaklar",
-        "text": "Günün hatırlatmaları panelin en üstünde durur."
+        "text": "Günün hatırlatmaları panelin en üstünde durur.",
+        "image": "media/isler/muhasebe/01.webp",
+        "box": {
+          "x": 1.54,
+          "y": 17.2,
+          "w": 96.92,
+          "h": 37.09
+        }
       },
       {
-        "time": 3.7,
         "title": "Tek dokunuşla tamamla",
-        "text": "Aylık tekrarlayan iş, sonraki aya kendiliğinden kurulur."
+        "text": "Aylık tekrarlayan iş, sonraki aya kendiliğinden kurulur.",
+        "before": {
+          "image": "media/isler/muhasebe/02a.webp",
+          "spot": {
+            "x": 12.29,
+            "y": 26.91
+          }
+        },
+        "image": "media/isler/muhasebe/02.webp"
       },
       {
-        "time": 6.9,
         "title": "WhatsApp hatırlatma",
-        "text": "Borçlu firmaya hazır mesajla tek dokunuşla yaz."
+        "text": "Borçlu firmaya hazır mesajla tek dokunuşla yaz.",
+        "image": "media/isler/muhasebe/03.webp",
+        "box": {
+          "x": 72.74,
+          "y": 42.26,
+          "w": 12.28,
+          "h": 5.57
+        }
       },
       {
-        "time": 11.1,
         "title": "Alacak takibi",
-        "text": "Bekleyen alacak ve vadesi geçen tutar ayrı ayrı görünür."
+        "text": "Bekleyen alacak ve vadesi geçen tutar ayrı ayrı görünür.",
+        "image": "media/isler/muhasebe/04.webp",
+        "box": {
+          "x": 1.54,
+          "y": 38.45,
+          "w": 96.92,
+          "h": 20.71
+        }
       },
       {
-        "time": 15.8,
         "title": "Fatura detayı",
-        "text": "Tutar, tahsil edilen ve kalan tek ekranda."
+        "text": "Tutar, tahsil edilen ve kalan tek ekranda.",
+        "before": {
+          "image": "media/isler/muhasebe/05a.webp",
+          "spot": {
+            "x": 18.81,
+            "y": 42.46
+          }
+        },
+        "image": "media/isler/muhasebe/05.webp"
       },
       {
-        "time": 21.0,
         "title": "Kısmi ödeme",
-        "text": "Ödemeyi gir; kalan bakiye kendiliğinden hesaplanır."
+        "text": "Ödemeyi gir; kalan bakiye kendiliğinden hesaplanır.",
+        "before": {
+          "image": "media/isler/muhasebe/06a.webp",
+          "spot": {
+            "x": 45.64,
+            "y": 90.18
+          }
+        },
+        "image": "media/isler/muhasebe/06.webp"
       },
       {
-        "time": 27.2,
         "title": "Tüm modüller tek menüde",
-        "text": "İşler, firmalar, faturalar, kasa ve hatırlatıcılar."
+        "text": "İşler, firmalar, faturalar, kasa ve hatırlatıcılar.",
+        "before": {
+          "image": "media/isler/muhasebe/07a.webp",
+          "spot": {
+            "x": 89.74,
+            "y": 3.55
+          }
+        },
+        "image": "media/isler/muhasebe/07.webp"
       },
       {
-        "time": 30.6,
         "title": "İş takibi",
-        "text": "Açık ve geciken işler, iş başına net kâr."
+        "text": "Açık ve geciken işler, iş başına net kâr.",
+        "before": {
+          "image": "media/isler/muhasebe/08a.webp",
+          "spot": {
+            "x": 41.54,
+            "y": 12.98
+          }
+        },
+        "image": "media/isler/muhasebe/08.webp"
       },
       {
-        "time": 35.3,
         "title": "Kasa",
-        "text": "Dönem dönem gelir, gider ve net kâr."
+        "text": "Dönem dönem gelir, gider ve net kâr.",
+        "before": {
+          "image": "media/isler/muhasebe/09a.webp",
+          "spot": {
+            "x": 41.54,
+            "y": 26.62
+          }
+        },
+        "image": "media/isler/muhasebe/09.webp"
       },
       {
-        "time": 43.1,
         "title": "12 aylık trend",
-        "text": "Gelir-gider grafiği kendiliğinden çizilir."
+        "text": "Gelir-gider grafiği kendiliğinden çizilir.",
+        "image": "media/isler/muhasebe/10.webp",
+        "box": {
+          "x": 4.62,
+          "y": 34.36,
+          "w": 90.77,
+          "h": 13.03
+        }
       }
     ]
   }

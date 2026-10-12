@@ -30,9 +30,23 @@ Tek video için `capture.cjs` ve `render.cjs` sonuna adını yazın (`crm` gibi)
 - `capture.cjs`: her ürünün adım adım senaryosu. Adım başlıkları ve açıklamaları burada.
 - `compose.html`, `backgrounds.js`: telefon, açıklama kartları, bağlantı çizgisi, arka planlar, kapanış.
 - `render.cjs`: video başlıkları, hangi arka plan, telefon hangi tarafta.
+- `gallery.py`: kayıtlardan sitenin galeri görsellerini ve `projects.json` adımlarını üretir.
 - `music.py`: videonun kendi zaman çizelgesinden müzik üretir ve `-muzikli.mp4` olarak ekler
   (`python music.py <frames> <video_klasörü> crm`). Tempo, her açıklama kartı bir vuruşa denk gelecek şekilde
   ayarlanır; kartta akor değişir ve vurgu gelir, dokunuşlarda tık sesi olur. Akorlar ve tempo aralığı `MOODS` içinde.
+
+## Site galerisi
+
+Sitedeki "İşler" bölümünün adım adım galerisi aynı kayıtlardan üretilir:
+
+```bash
+python gallery.py "$WORK/frames" ../../../site/public --check "$WORK"
+```
+
+Her adım için bir ekran (dokunuşla başlayan adımlarda bir de dokunuş öncesi ekran) `site/public/media/isler/<proje>/` altına yazılır
+ve `site/public/projects.json` içindeki `slides` yenilenir. Hangi karenin kullanılacağı `gallery.py` başındaki `PICKS` listesindedir;
+kayıt yeniden alınırsa kare numaraları değişeceği için bu liste gözden geçirilmelidir. `--check`, halka ve çerçevelerin çizildiği
+kontrol görsellerini yazar.
 
 ## Kayıt sırasında yapılan düzeltmeler
 

@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/styles.css">
   <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/demo.js"></script>
 </head>
 <body>
   <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -43,7 +44,7 @@
         <span>SAYNOVRA</span>
       </a>
       <nav class="nav" id="nav" aria-label="Ana gezinme">
-        <a href="#simulasyon">Canlı Akış</a>
+        <a href="#simulasyon">Canlı Demo</a>
         <a href="#hizmetler">Hizmetler</a>
         <a href="#surec">Süreç</a>
         <a href="#isler" id="nav-work" hidden>İşler</a>
@@ -63,7 +64,7 @@
           <p class="lead">İşletmelerin elle yaptığı işleri yazılıma, yapay zekâya ve otomasyona devrediyoruz.</p>
           <div class="actions">
             <a class="btn btn-lime" href="#iletisim">Projenizi konuşalım <span aria-hidden="true">↗</span></a>
-            <a class="btn btn-ghost" href="#simulasyon">Nasıl çalışır? <span aria-hidden="true">↓</span></a>
+            <a class="btn btn-ghost" href="#simulasyon">Demoyu deneyin <span aria-hidden="true">↓</span></a>
           </div>
         </div>
 
@@ -88,95 +89,259 @@
     <section class="section section-raised" id="simulasyon" aria-labelledby="sim-title">
       <div class="wrap">
         <header class="section-head">
-          <p class="eyebrow">01 / Canlı Simülasyon</p>
-          <h2 id="sim-title">Sistem arka planda <em>nasıl çalışır?</em></h2>
-          <p class="lead">Bir AI ajanının ve otomasyon akışının milisaniyeler içinde nasıl karar verip işi bitirdiğini canlı test edin.</p>
+          <p class="eyebrow">01 / Canlı Demo</p>
+          <h2 id="sim-title">Anlatmayalım, <em>kendiniz deneyin.</em></h2>
+          <p class="lead">Bu ekran gerçekten çalışır: randevu ekleyin, ödeme alın, bir otomasyon akışını izleyin. Veriler örnektir, hiçbir yere gönderilmez.</p>
         </header>
 
-        <div class="sim-wrapper">
-          <div class="sim-tabs" role="tablist" aria-label="Simülasyon senaryoları">
-            <button class="sim-tab is-active" id="tab-ecommerce" type="button" role="tab" aria-selected="true" data-scenario="ecommerce">
-              <span class="sim-tab-num">01</span>
-              <span class="sim-tab-title">E-Ticaret & Fatura</span>
-            </button>
-            <button class="sim-tab" id="tab-support" type="button" role="tab" aria-selected="false" data-scenario="support">
-              <span class="sim-tab-num">02</span>
-              <span class="sim-tab-title">WhatsApp AI Ajanı</span>
-            </button>
-            <button class="sim-tab" id="tab-pricing" type="button" role="tab" aria-selected="false" data-scenario="pricing">
-              <span class="sim-tab-num">03</span>
-              <span class="sim-tab-title">B2B Fiyat & Entegrasyon</span>
-            </button>
+        <div class="laptop" id="demo">
+          <div class="laptop-lid">
+            <span class="laptop-cam" aria-hidden="true"></span>
+            <div class="laptop-screen">
+              <div class="os-bar">
+                <span class="os-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                <div class="os-tabs" role="tablist" aria-label="Demo uygulamaları">
+                  <button class="os-tab" id="os-tab-crm" type="button" role="tab" aria-selected="true" aria-controls="os-panel-crm">Randevu paneli</button>
+                  <button class="os-tab" id="os-tab-fin" type="button" role="tab" aria-selected="false" aria-controls="os-panel-fin" tabindex="-1">Ön muhasebe</button>
+                  <button class="os-tab" id="os-tab-flow" type="button" role="tab" aria-selected="false" aria-controls="os-panel-flow" tabindex="-1">Otomasyon</button>
+                </div>
+                <span class="os-note">Demo · örnek veri</span>
+                <button class="os-reset" id="demo-reset" type="button">Sıfırla</button>
+              </div>
+
+              <div class="os-body">
+                <section class="app app-light" id="os-panel-crm" role="tabpanel" aria-labelledby="os-tab-crm">
+                  <header class="app-head">
+                    <div>
+                      <p class="app-kicker">Etkinlik mekânı · yönetim paneli</p>
+                      <h3 class="app-title">Randevular</h3>
+                    </div>
+                    <div class="app-actions">
+                      <div class="seg" role="group" aria-label="Görünüm">
+                        <button class="seg-btn" id="crm-view-list" type="button" aria-pressed="true">Liste</button>
+                        <button class="seg-btn" id="crm-view-cal" type="button" aria-pressed="false">Takvim</button>
+                      </div>
+                      <button class="app-btn app-btn-primary" id="crm-new" type="button">+ Yeni randevu</button>
+                    </div>
+                  </header>
+
+                  <form class="app-sheet" id="crm-form" aria-labelledby="crm-form-title" hidden novalidate>
+                    <h4 id="crm-form-title">Yeni randevu</h4>
+                    <label>Ad soyad
+                      <input class="app-input" name="name" type="text" maxlength="40" autocomplete="off" required>
+                    </label>
+                    <label>Etkinlik
+                      <select class="app-input" name="type">
+                        <option>Nişan</option>
+                        <option>Kına</option>
+                        <option>Düğün</option>
+                        <option>Söz</option>
+                        <option>Doğum günü</option>
+                      </select>
+                    </label>
+                    <label>Tarih
+                      <input class="app-input" name="date" type="date" required>
+                    </label>
+                    <div class="app-sheet-row">
+                      <label>Toplam tutar (TL)
+                        <input class="app-input" name="total" type="number" inputmode="numeric" min="1" max="10000000" step="500" required>
+                      </label>
+                      <label>Kapora (TL)
+                        <input class="app-input" name="paid" type="number" inputmode="numeric" min="0" max="10000000" step="500">
+                      </label>
+                    </div>
+                    <p class="app-error" id="crm-form-error" role="alert" hidden></p>
+                    <div class="app-sheet-actions">
+                      <button class="app-btn" id="crm-cancel" type="button">Vazgeç</button>
+                      <button class="app-btn app-btn-primary" type="submit">Kaydet</button>
+                    </div>
+                  </form>
+
+                  <dl class="app-stats">
+                    <div class="app-stat"><dt>Etkinlik</dt><dd id="crm-stat-count">0</dd></div>
+                    <div class="app-stat"><dt>Toplam ciro</dt><dd id="crm-stat-total">0 TL</dd></div>
+                    <div class="app-stat"><dt>Alınan ödeme</dt><dd id="crm-stat-paid">0 TL</dd></div>
+                    <div class="app-stat app-stat-warn"><dt>Bekleyen tahsilat</dt><dd id="crm-stat-open">0 TL</dd></div>
+                  </dl>
+
+                  <div id="crm-list-view">
+                    <div class="app-toolbar">
+                      <input class="app-input" id="crm-search" type="search" placeholder="İsimle ara" aria-label="İsimle ara" maxlength="40" autocomplete="off">
+                      <select class="app-input" id="crm-filter" aria-label="Duruma göre süz">
+                        <option value="">Tüm durumlar</option>
+                        <option value="open">Tahsilat bekliyor</option>
+                        <option value="paid">Ödendi</option>
+                      </select>
+                    </div>
+                    <div class="app-table-wrap">
+                      <table class="app-table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Müşteri</th>
+                            <th scope="col">Etkinlik</th>
+                            <th scope="col">Tarih</th>
+                            <th scope="col" class="num">Tutar</th>
+                            <th scope="col" class="num">Alınan</th>
+                            <th scope="col" class="num">Kalan</th>
+                            <th scope="col">Durum</th>
+                          </tr>
+                        </thead>
+                        <tbody id="crm-rows"></tbody>
+                      </table>
+                      <p class="app-empty" id="crm-empty" hidden>Aramaya uyan randevu yok.</p>
+                    </div>
+                  </div>
+
+                  <div id="crm-cal-view" hidden>
+                    <div class="cal-head">
+                      <button class="app-btn app-btn-icon" id="cal-prev" type="button" aria-label="Önceki ay">‹</button>
+                      <strong id="cal-title" aria-live="polite"></strong>
+                      <button class="app-btn app-btn-icon" id="cal-next" type="button" aria-label="Sonraki ay">›</button>
+                    </div>
+                    <div class="cal-grid" id="cal-grid"></div>
+                  </div>
+                </section>
+
+                <section class="app app-light" id="os-panel-fin" role="tabpanel" aria-labelledby="os-tab-fin" hidden>
+                  <header class="app-head">
+                    <div>
+                      <p class="app-kicker">Hizmet ofisi · ön muhasebe</p>
+                      <h3 class="app-title">Genel bakış</h3>
+                    </div>
+                  </header>
+
+                  <dl class="app-stats">
+                    <div class="app-stat"><dt>Bekleyen alacak</dt><dd id="fin-stat-open">0 TL</dd></div>
+                    <div class="app-stat app-stat-warn"><dt>Vadesi geçen</dt><dd id="fin-stat-late">0 TL</dd></div>
+                    <div class="app-stat"><dt>Bu ay gelir</dt><dd id="fin-stat-in">0 TL</dd></div>
+                    <div class="app-stat"><dt>Bu ay gider</dt><dd id="fin-stat-out">0 TL</dd></div>
+                  </dl>
+
+                  <div class="fin-grid">
+                    <div class="app-card">
+                      <h4>Faturalar</h4>
+                      <ul class="fin-list" id="fin-invoices"></ul>
+                    </div>
+                    <div class="fin-side">
+                      <div class="app-card">
+                        <h4>Bugün yapılacaklar</h4>
+                        <ul class="fin-list" id="fin-todos"></ul>
+                      </div>
+                      <div class="app-card">
+                        <h4>Son 12 ay <span class="fin-legend"><i></i>Gelir <i class="is-out"></i>Gider</span></h4>
+                        <div class="fin-chart" id="fin-chart" role="img" aria-label="Son 12 ayın gelir ve gider grafiği"></div>
+                        <form class="fin-expense" id="fin-expense" novalidate>
+                          <select class="app-input" name="category" aria-label="Gider kategorisi">
+                            <option>Kira</option>
+                            <option>Yazılım</option>
+                            <option>Elektrik</option>
+                            <option>Diğer</option>
+                          </select>
+                          <input class="app-input" name="amount" type="number" inputmode="numeric" min="1" max="10000000" step="100" placeholder="Tutar (TL)" aria-label="Gider tutarı" required>
+                          <button class="app-btn" type="submit">Gider ekle</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="app app-dark" id="os-panel-flow" role="tabpanel" aria-labelledby="os-tab-flow" hidden>
+                  <div class="sim-wrapper">
+                    <div class="sim-side">
+                      <div class="sim-tabs" role="tablist" aria-label="Simülasyon senaryoları">
+                        <button class="sim-tab is-active" id="tab-ecommerce" type="button" role="tab" aria-selected="true" data-scenario="ecommerce">
+                          <span class="sim-tab-num">01</span>
+                          <span class="sim-tab-title">E-Ticaret & Fatura</span>
+                        </button>
+                        <button class="sim-tab" id="tab-support" type="button" role="tab" aria-selected="false" data-scenario="support">
+                          <span class="sim-tab-num">02</span>
+                          <span class="sim-tab-title">WhatsApp AI Ajanı</span>
+                        </button>
+                        <button class="sim-tab" id="tab-pricing" type="button" role="tab" aria-selected="false" data-scenario="pricing">
+                          <span class="sim-tab-num">03</span>
+                          <span class="sim-tab-title">B2B Fiyat & Entegrasyon</span>
+                        </button>
+                      </div>
+
+                      <div class="sim-meta">
+                        <div class="sim-meta-info">
+                          <span class="sim-badge" id="sim-scenario-badge">E-Ticaret Sipariş Akışı</span>
+                          <p class="sim-desc" id="sim-scenario-desc">Shopify/WooCommerce siparişi geldiğinde stok ERP sisteminden rezerve edilir, GİB e-arşiv faturası kesilir ve kargo etiketi oluşturulur.</p>
+                        </div>
+                        <div class="sim-meta-actions">
+                          <button class="btn btn-ghost btn-small" id="sim-replay-btn" type="button">Tekrar Çalıştır <span aria-hidden="true">↺</span></button>
+                          <a class="btn btn-lime btn-small" id="sim-cta-btn" href="#iletisim">Bu sistemi kuralım <span aria-hidden="true">↗</span></a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sim-main">
+                      <div class="sim-pipeline" id="sim-pipeline" aria-label="İşlem adımları">
+                        <div class="sim-step" data-step="trigger">
+                          <div class="sim-step-dot" aria-hidden="true"></div>
+                          <span class="sim-step-label">01 Tetikleyici</span>
+                          <small class="sim-step-sub" id="pipe-trigger-sub">Shopify Webhook #4189</small>
+                        </div>
+                        <div class="sim-step-line" aria-hidden="true"></div>
+                        <div class="sim-step" data-step="mcp">
+                          <div class="sim-step-dot" aria-hidden="true"></div>
+                          <span class="sim-step-label">02 MCP Server</span>
+                          <small class="sim-step-sub" id="pipe-mcp-sub">ERP Stok & Fiyat Aracı</small>
+                        </div>
+                        <div class="sim-step-line" aria-hidden="true"></div>
+                        <div class="sim-step" data-step="agent">
+                          <div class="sim-step-dot" aria-hidden="true"></div>
+                          <span class="sim-step-label">03 AI Ajanı</span>
+                          <small class="sim-step-sub" id="pipe-agent-sub">Fatura & Kargo Karar Motoru</small>
+                        </div>
+                        <div class="sim-step-line" aria-hidden="true"></div>
+                        <div class="sim-step" data-step="dispatch">
+                          <div class="sim-step-dot" aria-hidden="true"></div>
+                          <span class="sim-step-label">04 Sonuç</span>
+                          <small class="sim-step-sub" id="pipe-dispatch-sub">GİB E-Fatura + Kargo API</small>
+                        </div>
+                      </div>
+
+                      <div class="sim-terminal" id="sim-panel" role="region" aria-label="Terminal simülasyon konsolu">
+                        <div class="terminal-bar">
+                          <div class="terminal-dots" aria-hidden="true">
+                            <span class="dot-red"></span>
+                            <span class="dot-yellow"></span>
+                            <span class="dot-green"></span>
+                          </div>
+                          <div class="terminal-title">saynovra-agent v2.4 · <span id="terminal-mode">ecommerce-flow.ts</span></div>
+                          <div class="terminal-status is-running" id="terminal-status">
+                            <span class="status-indicator" aria-hidden="true"></span>
+                            <span id="terminal-status-text">ÇALIŞIYOR</span>
+                          </div>
+                        </div>
+
+                        <div class="terminal-body" id="terminal-logs" tabindex="0" role="log" aria-live="polite"></div>
+
+                        <div class="terminal-footer">
+                          <div class="term-stat">
+                            <span class="term-stat-label">Toplam Süre:</span>
+                            <strong class="term-stat-val text-lime" id="stat-latency">0.38 sn</strong>
+                          </div>
+                          <div class="term-stat">
+                            <span class="term-stat-label">Manuel İnsan Süresi:</span>
+                            <strong class="term-stat-val" id="stat-human">~15 dakika</strong>
+                          </div>
+                          <div class="term-stat">
+                            <span class="term-stat-label">Hata Payı:</span>
+                            <strong class="term-stat-val text-lime">0.0%</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <p class="os-toast" id="demo-toast" role="status" hidden></p>
+              </div>
+            </div>
           </div>
-
-          <div class="sim-meta">
-            <div class="sim-meta-info">
-              <span class="sim-badge" id="sim-scenario-badge">E-Ticaret Sipariş Akışı</span>
-              <p class="sim-desc" id="sim-scenario-desc">Shopify/WooCommerce siparişi geldiğinde stok ERP sisteminden rezerve edilir, GİB e-arşiv faturası kesilir ve kargo etiketi oluşturulur.</p>
-            </div>
-            <div class="sim-meta-actions">
-              <button class="btn btn-ghost btn-small" id="sim-replay-btn" type="button">Tekrar Çalıştır <span aria-hidden="true">↺</span></button>
-              <a class="btn btn-lime btn-small" id="sim-cta-btn" href="#iletisim">Bu sistemi kuralım <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-
-          <div class="sim-pipeline" id="sim-pipeline" aria-label="İşlem adımları">
-            <div class="sim-step" data-step="trigger">
-              <div class="sim-step-dot" aria-hidden="true"></div>
-              <span class="sim-step-label">01 Tetikleyici</span>
-              <small class="sim-step-sub" id="pipe-trigger-sub">Shopify Webhook #4189</small>
-            </div>
-            <div class="sim-step-line" aria-hidden="true"></div>
-            <div class="sim-step" data-step="mcp">
-              <div class="sim-step-dot" aria-hidden="true"></div>
-              <span class="sim-step-label">02 MCP Server</span>
-              <small class="sim-step-sub" id="pipe-mcp-sub">ERP Stok & Fiyat Aracı</small>
-            </div>
-            <div class="sim-step-line" aria-hidden="true"></div>
-            <div class="sim-step" data-step="agent">
-              <div class="sim-step-dot" aria-hidden="true"></div>
-              <span class="sim-step-label">03 AI Ajanı</span>
-              <small class="sim-step-sub" id="pipe-agent-sub">Fatura & Kargo Karar Motoru</small>
-            </div>
-            <div class="sim-step-line" aria-hidden="true"></div>
-            <div class="sim-step" data-step="dispatch">
-              <div class="sim-step-dot" aria-hidden="true"></div>
-              <span class="sim-step-label">04 Sonuç</span>
-              <small class="sim-step-sub" id="pipe-dispatch-sub">GİB E-Fatura + Kargo API</small>
-            </div>
-          </div>
-
-          <div class="sim-terminal" id="sim-panel" role="region" aria-label="Terminal simülasyon konsolu">
-            <div class="terminal-bar">
-              <div class="terminal-dots" aria-hidden="true">
-                <span class="dot-red"></span>
-                <span class="dot-yellow"></span>
-                <span class="dot-green"></span>
-              </div>
-              <div class="terminal-title">saynovra-agent v2.4 · <span id="terminal-mode">ecommerce-flow.ts</span></div>
-              <div class="terminal-status is-running" id="terminal-status">
-                <span class="status-indicator" aria-hidden="true"></span>
-                <span id="terminal-status-text">ÇALIŞIYOR</span>
-              </div>
-            </div>
-
-            <div class="terminal-body" id="terminal-logs" tabindex="0" role="log" aria-live="polite"></div>
-
-            <div class="terminal-footer">
-              <div class="term-stat">
-                <span class="term-stat-label">Toplam Süre:</span>
-                <strong class="term-stat-val text-lime" id="stat-latency">0.38 sn</strong>
-              </div>
-              <div class="term-stat">
-                <span class="term-stat-label">Manuel İnsan Süresi:</span>
-                <strong class="term-stat-val" id="stat-human">~15 dakika</strong>
-              </div>
-              <div class="term-stat">
-                <span class="term-stat-label">Hata Payı:</span>
-                <strong class="term-stat-val text-lime">0.0%</strong>
-              </div>
-            </div>
-          </div>
+          <div class="laptop-base" aria-hidden="true"></div>
         </div>
       </div>
     </section>
@@ -291,7 +456,7 @@
             <p class="eyebrow">04 / İşler</p>
             <h2 id="work-title">Yaptığımız <em>işler.</em></h2>
           </div>
-          <p class="work-note">Geliştirdiğimiz projelerin telefon ekranı kayıtları. Müşteri adları gizlendi, ekranlardaki kayıtlar örnek veridir.</p>
+          <p class="work-note">Bir işe dokunun, ekran ekran nasıl kullanıldığını görün. Müşteri adları gizlendi, ekranlardaki kayıtlar örnek veridir.</p>
         </header>
         <div class="projects" id="projects"></div>
       </div>
@@ -361,18 +526,31 @@
 
   <dialog class="work-dialog" id="work-dialog" aria-labelledby="work-dialog-title">
     <div class="work-dialog-grid">
-      <div class="work-stage">
-        <video id="work-video" controls playsinline preload="none" width="720" height="1280"></video>
+      <div class="tour-stage">
+        <button class="tour-phone" id="work-phone" type="button" aria-label="Sonraki ekran">
+          <img class="tour-shot" alt="" width="585" height="1266">
+          <img class="tour-shot" alt="" width="585" height="1266">
+          <span class="tour-mark" id="work-mark" hidden></span>
+        </button>
       </div>
-      <div class="work-info">
+      <div class="tour-info">
         <p class="eyebrow" id="work-dialog-tag"></p>
-        <h3 id="work-dialog-title"></h3>
-        <p class="work-dialog-text" id="work-dialog-text"></p>
-        <ol class="chapters" id="work-chapters" aria-label="Videodaki adımlar"></ol>
-        <a class="btn btn-lime btn-small" id="work-dialog-cta" href="#iletisim">Benzerini konuşalım <span aria-hidden="true">↗</span></a>
+        <h3 class="tour-project" id="work-dialog-title"></h3>
+        <ol class="tour-progress" id="work-progress" aria-hidden="true"></ol>
+        <div class="tour-caption" aria-live="polite">
+          <p class="tour-count" id="work-count"></p>
+          <h4 class="tour-title" id="work-step-title"></h4>
+          <p class="tour-text" id="work-step-text"></p>
+        </div>
+        <div class="tour-nav">
+          <button class="btn btn-outline btn-small" id="work-prev" type="button"><span aria-hidden="true">←</span> Geri</button>
+          <button class="btn btn-lime btn-small" id="work-next" type="button"><b id="work-next-label">İleri</b> <span aria-hidden="true">→</span></button>
+        </div>
+        <ol class="chapters" id="work-steps" aria-label="Tüm adımlar"></ol>
+        <a class="btn btn-ghost btn-small tour-cta" id="work-dialog-cta" href="#iletisim">Benzerini konuşalım <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-    <button class="work-close" id="work-close" type="button" aria-label="Videoyu kapat"></button>
+    <button class="work-close" id="work-close" type="button" aria-label="Pencereyi kapat"></button>
   </dialog>
 
   <footer class="footer">

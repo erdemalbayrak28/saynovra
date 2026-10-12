@@ -2,9 +2,12 @@
 
 ## 2026-10-12
 
-- "Yaptığımız işler" bölümü açıldı: dört proje (etkinlik mekânı sitesi, kurumsal hizmet sitesi, randevu ve müşteri takibi, muhasebe ve tahsilat). Kartlar kapak görseli, özet ve öne çıkan özellikleri gösterir; "İzle" video penceresini açar.
-- Video penceresi: telefon ekranı kaydı ve yanında tıklanabilir adım listesi; oynayan adım kendiliğinden işaretlenir. Pencere kapanınca indirme de durur.
-- `projects.json` şeması genişledi (`tag`, `features`, `poster`, `video`, `duration`, `chapters`); eski `image` alanı kaldırıldı.
+- "Canlı Simülasyon" bölümü "Canlı Demo" oldu: bir bilgisayar ekranı içinde üç sekme. Randevu paneli (randevu ekleme, arama, süzme, tahsilat, takvim) ve Ön muhasebe (kısmi ödeme, hatırlatma, gider ekleme, 12 aylık grafik) gerçekten kullanılabiliyor; mevcut otomasyon simülatörü üçüncü sekmeye taşındı ve terminal ekrana sığacak şekilde iki sütuna alındı. Veriler örnektir, bellekte tutulur.
+- "İşler" bölümünde video penceresi kalktı, yerine adım adım ekran galerisi geldi: her adımda önce dokunulan yer, sonra açılan ekran görünür. İleri/Geri, adım listesi, ok tuşları ve kaydırma ile gezilir. Dört projede toplam 39 adım, 61 görsel (1,8 MB); videolar (15 MB) siteden kaldırıldı.
+- Simülatördeki 11-12 px yazılar 13 px'e çıkarıldı.
+- Menüde "Canlı Akış" → "Canlı Demo", hero'daki ikinci buton "Demoyu deneyin".
+- "Yaptığımız işler" bölümü açıldı: dört proje (etkinlik mekânı sitesi, kurumsal hizmet sitesi, randevu ve müşteri takibi, muhasebe ve tahsilat). Kartlar kapak görseli, özet ve öne çıkan özellikleri gösterir.
+- `projects.json` şeması genişledi (`tag`, `features`, `poster`, `slides`); eski `image` alanı kaldırıldı.
 - Klasör düzeni: `dist/` → `public/`; stil dosyaları `public/css/`, betik `public/js/` altına alındı.
 - Kullanılmayan `app.ts`, `assets/`, `_codex-yedek/` ve `.openai/` silindi.
 - Firebase Hosting ayarı eklendi (`firebase.json`): güvenlik başlıkları ve önbellek süreleri.

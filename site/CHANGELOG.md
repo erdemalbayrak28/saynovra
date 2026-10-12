@@ -6,6 +6,7 @@
 - "İşler" bölümünde video penceresi kalktı, yerine adım adım ekran galerisi geldi: her adımda önce dokunulan yer, sonra açılan ekran görünür. İleri/Geri, adım listesi, ok tuşları ve kaydırma ile gezilir. Dört projede toplam 39 adım, 61 görsel (1,8 MB); videolar (15 MB) siteden kaldırıldı.
 - Simülatördeki 11-12 px yazılar 13 px'e çıkarıldı.
 - Menüde "Canlı Akış" → "Canlı Demo", hero'daki ikinci buton "Demoyu deneyin".
+- Canlı Demo başlığının altına not eklendi: ekrandakiler sadeleştirilmiş örnektir, gerçek projeler daha kapsamlıdır.
 - "Yaptığımız işler" bölümü açıldı: dört proje (etkinlik mekânı sitesi, kurumsal hizmet sitesi, randevu ve müşteri takibi, muhasebe ve tahsilat). Kartlar kapak görseli, özet ve öne çıkan özellikleri gösterir.
 - `projects.json` şeması genişledi (`tag`, `features`, `poster`, `slides`); eski `image` alanı kaldırıldı.
 - Klasör düzeni: `dist/` → `public/`; stil dosyaları `public/css/`, betik `public/js/` altına alındı.
